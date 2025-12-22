@@ -1,4 +1,4 @@
-export default function LeftIntro({badge = "badge", title = "title", subtitle="subtitle", description="description", cardTitle1 = "cardtitle1" , cardTitle2 = "cardtitle2", cardDesc1="carddesc1", cardDesc2="carddesc2", hasCard=true}) {
+export default function LeftIntro({badge = "badge", title = "title", subtitle="subtitle", description="description", cardTitle1 = "cardtitle1" , cardTitle2 = "cardtitle2", cardDesc1="carddesc1", cardDesc2="carddesc2", hasCard=true, oneCard=false}) {
   return (
     <div className="reveal">
       <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/70">
@@ -23,7 +23,9 @@ export default function LeftIntro({badge = "badge", title = "title", subtitle="s
           <p className="mt-1">{cardDesc2}</p>
         </div>
       </div>) : null}
-      
+      {oneCard ? (<div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs text-white/60">
+            {cardTitle1}
+          </div>) : null}
     </div>
   );
 }

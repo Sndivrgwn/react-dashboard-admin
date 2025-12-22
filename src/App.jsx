@@ -8,6 +8,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import ForgotPassword from "./components/auth/forgot_password/ForgotPassword";
 import ResetPassword from "./components/auth/reset_password/ResetPassword";
 import PageNotFound from "./components/error/ErrorPageNotFound";
+import TwoFactorAuth from "./components/auth/2fa/TwoFactorAuth";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="*" element={<PageNotFound />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/verify-otp" element={<TwoFactorAuth />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/reset-password" element={<ResetPassword/>}/>
