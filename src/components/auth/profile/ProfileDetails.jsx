@@ -1,7 +1,12 @@
-import { useAuth } from "../../../context/AuthContext"
+import { useState } from "react";
+import { useAuth } from "../../../context/AuthContext";
+import ModalPersonal from "./modal/PersonalModal";
+import AddressModal from "./modal/AddressModal";
 
-export default function Profiledetails() {
-  const {user} = useAuth()
+export default function Profiledetails({ onSuccess }) {
+  const { user } = useAuth();
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isAddressEditOpen, setIsAddressEditOpen] = useState(false);
 
     return (
         <div className="space-y-6">
@@ -13,7 +18,11 @@ export default function Profiledetails() {
                   Update your personal details.
                 </p>
               </div>
-              <button className="flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm text-white/70 transition hover:border-white/20 hover:text-white">
+              <button
+                type="button"
+                onClick={() => setIsEditOpen(true)}
+                className="flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm text-white/70 transition hover:border-white/20 hover:text-white"
+              >
                 Edit
               </button>
             </div>
@@ -45,12 +54,21 @@ export default function Profiledetails() {
                 </p>
                 <p className="mt-2 text-sm text-white/80">{user?.phone || "-"}</p>
               </div>
-              <div className="md:col-span-2">
+              <div>
+                <p className="text-xs uppercase tracking-wide text-white/40">
+                  Job Title
+                </p>
+                <p className="mt-2 text-sm text-white/80">
+                  {user?.job_title || "-"}
+                </p>
+              </div>
+              <div>
                 <p className="text-xs uppercase tracking-wide text-white/40">
                   Bio
                 </p>
                 <p className="mt-2 text-sm text-white/80">{user?.bio || "-"}</p>
               </div>
+              
             </div>
           </div>
 
@@ -62,7 +80,11 @@ export default function Profiledetails() {
                   Manage your location details.
                 </p>
               </div>
-              <button className="flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm text-white/70 transition hover:border-white/20 hover:text-white">
+              <button
+                type="button"
+                onClick={() => setIsAddressEditOpen(true)}
+                className="flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm text-white/70 transition hover:border-white/20 hover:text-white"
+              >
                 Edit
               </button>
             </div>
@@ -96,6 +118,18 @@ export default function Profiledetails() {
               </div>
             </div>
           </div>
+
+          <ModalPersonal
+            isEditOpen={isEditOpen}
+            setIsEditOpen={setIsEditOpen}
+            onSuccess={onSuccess}
+          />
+
+          <AddressModal
+            isAddressEditOpen={isAddressEditOpen}
+            setIsAddressEditOpen={setIsAddressEditOpen}
+            onSuccess={onSuccess}
+          />
         </div>
     )
 }

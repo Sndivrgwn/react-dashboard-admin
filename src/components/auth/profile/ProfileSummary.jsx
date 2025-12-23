@@ -14,7 +14,7 @@ export default function ProfileSummary() {
               <div>
                 <h2 className="text-lg font-semibold">{user?.first_name} {user?.last_name}</h2>
                 <p className="text-sm text-white/60">
-                  {user?.bio || "Write your bio"} &nbsp;|&nbsp; {user?.city_state || "City/State"}
+                  {user?.job_title || "job title"} &nbsp;|&nbsp; {user?.city_state || "City/State"}
                 </p>
               </div>
             </div>
@@ -59,22 +59,6 @@ export default function ProfileSummary() {
                 >
                   <path d="M12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm6.1-7.9a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0zM20 6.1v11.8A2.1 2.1 0 0 1 17.9 20H6.1A2.1 2.1 0 0 1 4 17.9V6.1A2.1 2.1 0 0 1 6.1 4h11.8A2.1 2.1 0 0 1 20 6.1zm-1.8 0a.3.3 0 0 0-.3-.3H6.1a.3.3 0 0 0-.3.3v11.8c0 .2.1.3.3.3h11.8c.2 0 .3-.1.3-.3V6.1z" />
                 </svg>
-              </button>
-              <button className="flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm text-white/70 transition hover:border-white/20 hover:text-white">
-                <svg
-                  className="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M12 20h9" />
-                  <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
-                </svg>
-                Edit
               </button>
             </div>
           </div>

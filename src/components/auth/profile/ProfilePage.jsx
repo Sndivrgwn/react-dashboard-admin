@@ -1,9 +1,16 @@
+import { useState } from "react";
 import Profiledetails from "./ProfileDetails";
 import ProfileSummary from "./ProfileSummary";
+import SuccessBanner from "../../error/banner/SuccessBanner";
 
 export default function Profile() {
+  const [successMessage, setSuccessMessage] = useState("");
+
   return (
     <div className="mx-auto w-full max-w-6xl space-y-6 text-white">
+      {successMessage ? (
+        <SuccessBanner message={successMessage} />
+      ) : null}
 
       <div className="flex items-center justify-between">
         <div>
@@ -40,10 +47,10 @@ export default function Profile() {
         </div>
       </div>
 
-      <ProfileSummary />
+      <ProfileSummary onSuccess={(message) => setSuccessMessage(message)} />
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-        <Profiledetails />
+        <Profiledetails onSuccess={(message) => setSuccessMessage(message)} />
         <div className="rounded-3xl border border-white/10 bg-slate-900/70 p-6 backdrop-blur">
           <h3 className="text-sm font-semibold text-white/80">Quick actions</h3>
           <div className="mt-4 grid gap-3 text-sm">
