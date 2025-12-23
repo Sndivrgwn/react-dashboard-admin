@@ -5,7 +5,8 @@ import ErrorBanner from "../../error/banner/ErrorBanner";
 import ButtonSubmit from "../../template/form/ButtonSubmit";
 
 export default function FormRegister() {
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +22,9 @@ export default function FormRegister() {
 
     try {
       const registrationData = {
-        name: name,
+        name: `${firstName} ${lastName}`.trim(),
+        first_name: firstName,
+        last_name: lastName,
         email: email,
         password: password,
       };
@@ -94,19 +97,35 @@ export default function FormRegister() {
   return (
     <form className="space-y-4" onSubmit={HandleSubmit} autoComplete="on">
       {errorMessage ? <ErrorBanner message={errorMessage} /> : null}
-      <div className="space-y-2">
-        <label htmlFor="name" className="text-sm font-medium text-white/70">
-          Name
-        </label>
-        <input
-          id="name"
-          type="text"
-          placeholder="Your name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          autoComplete="name"
-          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
-        />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="space-y-2">
+          <label htmlFor="firstName" className="text-sm font-medium text-white/70">
+            First name
+          </label>
+          <input
+            id="firstName"
+            type="text"
+            placeholder="First name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            autoComplete="given-name"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
+          />
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="lastName" className="text-sm font-medium text-white/70">
+            Last name
+          </label>
+          <input
+            id="lastName"
+            type="text"
+            placeholder="Last name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            autoComplete="family-name"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
+          />
+        </div>
       </div>
 
       <div className="space-y-2">

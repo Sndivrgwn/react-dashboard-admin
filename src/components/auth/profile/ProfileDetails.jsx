@@ -1,4 +1,8 @@
+import { useAuth } from "../../../context/AuthContext"
+
 export default function Profiledetails() {
+  const {user} = useAuth()
+
     return (
         <div className="space-y-6">
           <div className="relative rounded-[26px] border border-white/10 bg-slate-900/80 p-6 shadow-2xl shadow-black/40 backdrop-blur sm:p-8">
@@ -19,33 +23,33 @@ export default function Profiledetails() {
                 <p className="text-xs uppercase tracking-wide text-white/40">
                   First Name
                 </p>
-                <p className="mt-2 text-sm text-white/80">Musharof</p>
+                <p className="mt-2 text-sm text-white/80">{user?.first_name}</p>
               </div>
               <div>
                 <p className="text-xs uppercase tracking-wide text-white/40">
                   Last Name
                 </p>
-                <p className="mt-2 text-sm text-white/80">Chowdhury</p>
+                <p className="mt-2 text-sm text-white/80">{user?.last_name}</p>
               </div>
               <div>
                 <p className="text-xs uppercase tracking-wide text-white/40">
                   Email address
                 </p>
                 <p className="mt-2 text-sm text-white/80">
-                  randomuser@pimjo.com
+                  {user?.email}
                 </p>
               </div>
               <div>
                 <p className="text-xs uppercase tracking-wide text-white/40">
                   Phone
                 </p>
-                <p className="mt-2 text-sm text-white/80">+09 363 398 46</p>
+                <p className="mt-2 text-sm text-white/80">{user?.phone || "-"}</p>
               </div>
               <div className="md:col-span-2">
                 <p className="text-xs uppercase tracking-wide text-white/40">
                   Bio
                 </p>
-                <p className="mt-2 text-sm text-white/80">Team Manager</p>
+                <p className="mt-2 text-sm text-white/80">{user?.bio || "-"}</p>
               </div>
             </div>
           </div>
@@ -68,27 +72,27 @@ export default function Profiledetails() {
                 <p className="text-xs uppercase tracking-wide text-white/40">
                   Country
                 </p>
-                <p className="mt-2 text-sm text-white/80">United States</p>
+                <p className="mt-2 text-sm text-white/80">{user?.country || "-"}</p>
               </div>
               <div>
                 <p className="text-xs uppercase tracking-wide text-white/40">
                   City/State
                 </p>
                 <p className="mt-2 text-sm text-white/80">
-                  Phoenix, Arizona, United States
+                  {user?.city_state || "-"}
                 </p>
               </div>
               <div>
                 <p className="text-xs uppercase tracking-wide text-white/40">
                   Postal Code
                 </p>
-                <p className="mt-2 text-sm text-white/80">ERT 2489</p>
+                <p className="mt-2 text-sm text-white/80">{user?.postal_code || "-"}</p>
               </div>
               <div>
                 <p className="text-xs uppercase tracking-wide text-white/40">
                   Tax ID
                 </p>
-                <p className="mt-2 text-sm text-white/80">AS4568384</p>
+                <p className="mt-2 text-sm text-white/80">{user?.tax_id || "-"}</p>
               </div>
             </div>
           </div>

@@ -12,9 +12,9 @@ export default function ProfileSummary() {
             <div className="flex items-center gap-4">
               <div className="h-16 w-16 rounded-full bg-gradient-to-br from-fuchsia-400/60 to-cyan-400/60" />
               <div>
-                <h2 className="text-lg font-semibold">{user?.name}</h2>
+                <h2 className="text-lg font-semibold">{user?.first_name} {user?.last_name}</h2>
                 <p className="text-sm text-white/60">
-                  Team Manager &nbsp;|&nbsp; Arizona, United States
+                  {user?.bio || "Write your bio"} &nbsp;|&nbsp; {user?.city_state || "City/State"}
                 </p>
               </div>
             </div>

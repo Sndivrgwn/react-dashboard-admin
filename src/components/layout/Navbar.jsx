@@ -5,7 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -109,7 +109,7 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
           >
             <div className="h-8 w-8 rounded-full bg-slate-300" />
             <div className="hidden text-sm text-slate-300 sm:block">
-              Musharof
+              {user?.first_name || "-"}
             </div>
             <svg
               className="h-4 w-4 text-slate-500"
@@ -127,8 +127,8 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
           {isMenuOpen ? (
             <div className="absolute right-0 top-12 z-50 w-56 rounded-2xl border border-white/10 bg-slate-950 p-2 text-sm text-white/70 shadow-xl">
               <div className="px-3 py-2">
-                <p className="text-sm font-semibold text-white">Musharof</p>
-                <p className="text-xs text-white/50">musharof@email.com</p>
+                <p className="text-sm font-semibold text-white">{user?.first_name || "-"}</p>
+                <p className="text-xs text-white/50">{user?.email || "-"}</p>
               </div>
               <div className="my-2 h-px bg-white/10" />
               <Link

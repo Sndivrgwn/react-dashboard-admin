@@ -10,17 +10,20 @@ import ResetPassword from "./components/auth/reset_password/ResetPassword";
 import PageNotFound from "./components/error/ErrorPageNotFound";
 import TwoFactorAuth from "./components/auth/2fa/TwoFactorAuth";
 import AppLayout from "./components/layout/AppLayout";
+import BackgroundAnimation from "./components/template/BackgroundAnimation";
 
 function App() {
   return (
     <AuthProvider>
+      <BackgroundAnimation />
+
       <Routes>
         <Route path="*" element={<PageNotFound />} />
         <Route path="/login" element={<Login />} />
         <Route path="/verify-otp" element={<TwoFactorAuth />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword/>}/>
-        <Route path="/reset-password" element={<ResetPassword/>}/>
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<AppLayout />}>
             <Route path="/profile" element={<Profile />} />

@@ -6,7 +6,6 @@ import FormLogin from "./FormLogin";
 export default function Login() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-950 text-white">
-      <BackgroundAnimation />
 
       <div className="relative mx-auto grid min-h-screen w-full max-w-6xl items-center gap-12 px-4 py-12 lg:grid-cols-2">
         {/* Left intro */}
