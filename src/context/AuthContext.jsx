@@ -14,6 +14,7 @@ export default function AuthProvider({ children }) {
 
     localStorage.setItem("token", res.token);
     setUser(res.user);
+    setLoading(false);
     return res;
   };
 
@@ -26,6 +27,7 @@ export default function AuthProvider({ children }) {
     if (res?.user) {
       setUser(res.user);
     }
+    setLoading(false);
 
     return res;
   };
@@ -36,6 +38,13 @@ export default function AuthProvider({ children }) {
   };
 
   const fetchUser = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await authService.getMe();
       setUser(res.user);

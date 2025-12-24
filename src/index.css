@@ -20,9 +20,10 @@ body,
 
 body {
   margin: 0;
+  overflow: hidden;
 }
 
-.glow-pulse {
+/* .glow-pulse {
   animation: glow-pulse 4s ease-in-out infinite;
 }
 
@@ -44,5 +45,5 @@ body {
     animation: none;
     opacity: 1;
     transform: none;
-  }
-}
+  } */
+/* } */

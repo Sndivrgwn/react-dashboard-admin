@@ -1,4 +1,4 @@
-export default function ButtonSubmit({isSubmitting, text="Loading", title="set title" }) {
+export default function ButtonSubmit({isSubmitting, text="Loading", title="set title"}) {
     return (
         <button
         type="submit"
