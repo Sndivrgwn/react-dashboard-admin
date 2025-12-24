@@ -8,6 +8,14 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
 
+  const avatarSrc = user?.avatar
+    ? user.avatar.startsWith("http")
+      ? user.avatar
+      : `http://127.0.0.1:8000/${
+          user.avatar.startsWith("storage/") ? "" : "storage/"
+        }${user.avatar}`
+    : "";
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -44,14 +52,12 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden="true"
           >
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="18" x2="21" y2="18" />
+            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
         </button>
         <div className="hidden items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/50 sm:flex">
@@ -72,13 +78,13 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden="true"
           >
-            <path d="M12 3a6 6 0 0 0 0 12 6 6 0 0 0 0-12Z" />
-            <path d="M19 21a8 8 0 0 0-14 0" />
+            <path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+            <path d="M4.501 20.118a7.5 7.5 0 0 1 14.998 0A9.75 9.75 0 0 1 12 21.75a9.75 9.75 0 0 1-7.499-2.632Z" />
           </svg>
         </button>
         <button
@@ -90,13 +96,12 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden="true"
           >
-            <path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 7h18s-3 0-3-7" />
-            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9a6 6 0 0 0-12 0v.75a8.967 8.967 0 0 1-2.311 6.022 23.848 23.848 0 0 0 5.454 1.31m5.714 0a3 3 0 1 1-5.714 0" />
           </svg>
           <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-orange-400" />
         </button>
@@ -107,7 +112,17 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
             onClick={() => setIsMenuOpen((open) => !open)}
             className="flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 transition hover:border-white/20 hover:bg-white/10"
           >
-            <div className="h-8 w-8 rounded-full bg-slate-300" />
+            {user?.avatar ? (
+                  <img
+                    src={avatarSrc}
+                    alt={`${user?.first_name || "User"} avatar`}
+                    className="h-8 w-8  rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/10 text-lg font-semibold text-white">
+                    {`${user?.first_name?.[0] || "U"}${user?.last_name?.[0] || ""}`}
+                  </div>
+                )}
             <div className="hidden text-sm text-slate-300 sm:block">
               {user?.first_name || "-"}
             </div>
@@ -116,12 +131,12 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
               aria-hidden="true"
             >
-              <polyline points="6 9 12 15 18 9" />
+              <path d="M6 9l6 6 6-6" />
             </svg>
           </button>
           {isMenuOpen ? (
@@ -142,13 +157,13 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
+                    strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     aria-hidden="true"
                   >
-                    <path d="M20 21a8 8 0 0 0-16 0" />
-                    <circle cx="12" cy="7" r="4" />
+                    <path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                    <path d="M4.501 20.118a7.5 7.5 0 0 1 14.998 0A9.75 9.75 0 0 1 12 21.75a9.75 9.75 0 0 1-7.499-2.632Z" />
                   </svg>
                   Account profile
                 </span>
@@ -164,13 +179,12 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
+                    strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     aria-hidden="true"
                   >
-                    <circle cx="12" cy="12" r="3" />
-                    <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.54V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1-1.54 1.7 1.7 0 0 0-1.87.34l-.06.06A2 2 0 1 1 4.2 17l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.54-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.54-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06A2 2 0 0 1 7.06 4.2l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.54V3a2 2 0 0 1 4 0v.09a1.7 1.7 0 0 0 1 1.54 1.7 1.7 0 0 0 1.87-.34l.06-.06A2 2 0 1 1 19.8 7l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.54 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.54 1Z" />
+                    <path d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M4.5 6h3m3 6h9.75m-9.75 0a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M4.5 12h3m3 6h9.75m-9.75 0a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M4.5 18h3" />
                   </svg>
                   Account setting
                 </span>
@@ -187,14 +201,13 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
+                    strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     aria-hidden="true"
                   >
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                    <polyline points="16 17 21 12 16 7" />
-                    <line x1="21" y1="12" x2="9" y2="12" />
+                    <path d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15" />
+                    <path d="M12 12h9m0 0-3-3m3 3-3 3" />
                   </svg>
                   Sign out
                 </span>

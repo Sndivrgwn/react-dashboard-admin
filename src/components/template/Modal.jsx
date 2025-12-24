@@ -1,7 +1,18 @@
+import { useEffect } from "react";
+import { createPortal } from "react-dom";
+
 export default function Modal({ isOpen, title, onClose, children }) {
   if (!isOpen) return null;
 
-  return (
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4"
       role="dialog"
@@ -21,5 +32,5 @@ export default function Modal({ isOpen, title, onClose, children }) {
         <div className="mt-4">{children}</div>
       </div>
     </div>
-  );
+  , document.body);
 }

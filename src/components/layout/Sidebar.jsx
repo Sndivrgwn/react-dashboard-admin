@@ -1,15 +1,20 @@
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
 const navItems = [
   { label: "Dashboard", to: "/" },
-  { label: "AI Assistant", to: "/" },
-  { label: "E-commerce", to: "/" },
-  { label: "Calendar", to: "/" },
-  { label: "User ", to: "/" },
-  { label: "Tasks", to: "/" },
-  { label: "Forms", to: "/" },
-  { label: "Tables", to: "/" },
-  { label: "Pages", to: "/" },
+  { label: "AI Assistant", to: "/assistant" },
+  { label: "E-commerce", to: "/ecommerce" },
+  { label: "Calendar", to: "/calendar" },
+  { label: "User", to: "/profile" },
+  { label: "Tasks", to: "/tasks" },
+  { label: "Forms", to: "/forms" },
+  { label: "Pages", to: "/pages" },
+];
+
+const tableItems = [
+  { label: "Basic Tables", to: "/tables/basic" },
+  { label: "Data Tables", to: "/tables/data" },
 ];
 
 const supportItems = [
@@ -19,6 +24,16 @@ const supportItems = [
 ];
 
 export default function Sidebar({ isOpen = true }) {
+  const location = useLocation();
+  const isTablesActive = location.pathname.startsWith("/tables");
+  const [isTablesOpen, setIsTablesOpen] = useState(isTablesActive);
+
+  useEffect(() => {
+    if (isTablesActive) {
+      setIsTablesOpen(true);
+    }
+  }, [isTablesActive]);
+
   return (
     <aside
       className={[
@@ -45,6 +60,7 @@ export default function Sidebar({ isOpen = true }) {
             <NavLink
               key={item.label}
               to={item.to}
+              end
               className={({ isActive }) =>
                 [
                   "flex items-center justify-between rounded-xl px-3 py-2 text-sm transition",
@@ -62,6 +78,62 @@ export default function Sidebar({ isOpen = true }) {
               ) : null}
             </NavLink>
           ))}
+
+          <div>
+            <button
+              type="button"
+              onClick={() => setIsTablesOpen((prev) => !prev)}
+              className={[
+                "flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm transition",
+                isTablesActive
+                  ? "bg-white/10 text-white"
+                  : "text-white/60 hover:bg-white/10 hover:text-white",
+              ].join(" ")}
+            >
+              <span>Tables</span>
+              <span
+                className={[
+                  "flex h-6 w-6 items-center justify-center rounded-full transition",
+                  isTablesOpen ? "text-white" : "text-white/60",
+                ].join(" ")}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={[
+                    "h-4 w-4 transition-transform",
+                    isTablesOpen ? "rotate-0" : "rotate-180",
+                  ].join(" ")}
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </span>
+            </button>
+            {isTablesOpen ? (
+              <div className="mt-2 space-y-1 pl-3">
+                {tableItems.map((item) => (
+                  <NavLink
+                    key={item.label}
+                    to={item.to}
+                    className={({ isActive }) =>
+                      [
+                        "flex items-center rounded-xl px-3 py-2 text-sm transition",
+                        isActive
+                          ? "bg-white/10 text-white"
+                          : "text-white/60 hover:bg-white/10 hover:text-white",
+                      ].join(" ")
+                    }
+                  >
+                    {item.label}
+                  </NavLink>
+                ))}
+              </div>
+            ) : null}
+          </div>
         </nav>
       </div>
 

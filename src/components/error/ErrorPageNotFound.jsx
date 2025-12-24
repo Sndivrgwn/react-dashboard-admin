@@ -30,7 +30,7 @@ export default function PageNotFound() {
             to="/login"
             className="cursor-pointer rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white/80 transition hover:border-white/20 hover:bg-white/10"
           >
-            Back to login
+            Back to sign in
           </Link>
         </div>
       </div>

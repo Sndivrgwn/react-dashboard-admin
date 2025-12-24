@@ -11,6 +11,18 @@ import PageNotFound from "./components/error/ErrorPageNotFound";
 import TwoFactorAuth from "./components/auth/2fa/TwoFactorAuth";
 import AppLayout from "./components/layout/AppLayout";
 import BackgroundAnimation from "./components/template/BackgroundAnimation";
+import BasicTablesPage from "./components/tables/basic/BasicTablesPage";
+
+function PlaceholderPage({ title, description }) {
+  return (
+    <div className="mx-auto w-full max-w-6xl space-y-2 text-white">
+      <h1 className="text-2xl font-semibold">{title}</h1>
+      <p className="text-sm text-white/60">
+        {description || "This section is ready when you are."}
+      </p>
+    </div>
+  );
+}
 
 function App() {
   return (
@@ -26,7 +38,31 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<AppLayout />}>
+            <Route index element={<PlaceholderPage title="Dashboard" />} />
             <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/assistant"
+              element={<PlaceholderPage title="AI Assistant" />}
+            />
+            <Route
+              path="/ecommerce"
+              element={<PlaceholderPage title="E-commerce" />}
+            />
+            <Route
+              path="/calendar"
+              element={<PlaceholderPage title="Calendar" />}
+            />
+            <Route path="/tasks" element={<PlaceholderPage title="Tasks" />} />
+            <Route path="/forms" element={<PlaceholderPage title="Forms" />} />
+            <Route path="/pages" element={<PlaceholderPage title="Pages" />} />
+            <Route
+              path="/tables/basic"
+              element={<BasicTablesPage />}
+            />
+            <Route
+              path="/tables/data"
+              element={<PlaceholderPage title="Data Tables" />}
+            />
           </Route>
         </Route>
       </Routes>
