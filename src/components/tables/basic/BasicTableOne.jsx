@@ -1,3 +1,5 @@
+import Icon from "../../template/Icon";
+
 const rows = [
   {
     name: "Lindsey Curtis",
@@ -52,17 +54,7 @@ export default function BasicTableOne() {
     <section className="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-lg shadow-black/20 backdrop-blur">
       <div className="flex items-center gap-2">
         <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/10 text-white/70">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-4 w-4"
-          >
-            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5M5.25 6.75v10.5A2.25 2.25 0 0 0 7.5 19.5h9A2.25 2.25 0 0 0 18.75 17.25V6.75M5.25 6.75V5.25A2.25 2.25 0 0 1 7.5 3h9A2.25 2.25 0 0 1 18.75 5.25v1.5M12 3v16.5" />
-          </svg>
+          <Icon name="table" className="h-4 w-4" />
         </span>
         <h2 className="text-lg font-semibold text-white">Basic Table 1</h2>
       </div>

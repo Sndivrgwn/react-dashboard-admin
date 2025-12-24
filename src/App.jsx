@@ -12,6 +12,8 @@ import TwoFactorAuth from "./components/auth/2fa/TwoFactorAuth";
 import AppLayout from "./components/layout/AppLayout";
 import BackgroundAnimation from "./components/template/BackgroundAnimation";
 import BasicTablesPage from "./components/tables/basic/BasicTablesPage";
+import ProductsPage from "./components/ecommerce/products/ProductsPage";
+import AddProductPage from "./components/ecommerce/products/AddProductPage";
 
 function PlaceholderPage({ title, description }) {
   return (
@@ -47,6 +49,46 @@ function App() {
             <Route
               path="/ecommerce"
               element={<PlaceholderPage title="E-commerce" />}
+            />
+            <Route
+              path="/ecommerce/products"
+              element={<ProductsPage />}
+            />
+            <Route
+              path="/ecommerce/add-product"
+              element={<AddProductPage />}
+            />
+            <Route
+              path="/ecommerce/billing"
+              element={<PlaceholderPage title="Billing" />}
+            />
+            <Route
+              path="/ecommerce/invoice"
+              element={<PlaceholderPage title="Invoice" />}
+            />
+            <Route
+              path="/ecommerce/invoice/single"
+              element={<PlaceholderPage title="Single Invoice" />}
+            />
+            <Route
+              path="/ecommerce/invoice/create"
+              element={<PlaceholderPage title="Create Invoice" />}
+            />
+            <Route
+              path="/ecommerce/transactions"
+              element={<PlaceholderPage title="Transaction" />}
+            />
+            <Route
+              path="/ecommerce/transactions/add"
+              element={<PlaceholderPage title="Add Transactions" />}
+            />
+            <Route
+              path="/ecommerce/receipt"
+              element={<PlaceholderPage title="Receipt" />}
+            />
+            <Route
+              path="/ecommerce/refund"
+              element={<PlaceholderPage title="Refund" />}
             />
             <Route
               path="/calendar"

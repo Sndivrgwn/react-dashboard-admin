@@ -1,3 +1,5 @@
+import Icon from "../../template/Icon";
+
 const orders = [
   {
     id: "DE124321",
@@ -57,17 +59,7 @@ export default function BasicTableTwo() {
     <section className="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-lg shadow-black/20 backdrop-blur">
       <div className="flex items-center gap-2">
         <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/10 text-white/70">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-4 w-4"
-          >
-            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5M5.25 6.75v10.5A2.25 2.25 0 0 0 7.5 19.5h9A2.25 2.25 0 0 0 18.75 17.25V6.75M5.25 6.75V5.25A2.25 2.25 0 0 1 7.5 3h9A2.25 2.25 0 0 1 18.75 5.25v1.5M12 3v16.5" />
-          </svg>
+          <Icon name="table" className="h-4 w-4" />
         </span>
         <h2 className="text-lg font-semibold text-white">Basic Table 2</h2>
       </div>
@@ -84,17 +76,7 @@ export default function BasicTableTwo() {
               type="button"
               className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-xs font-semibold text-white/70 transition hover:border-white/20 hover:text-white"
             >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-4 w-4"
-              >
-                <path d="M3 4.5h18L14.25 12v6.75a.75.75 0 0 1-1.2.6l-3-2.25a.75.75 0 0 1-.3-.6V12L3 4.5Z" />
-              </svg>
+              <Icon name="filter" className="h-4 w-4" />
               Filter
             </button>
             <button
@@ -153,15 +135,13 @@ export default function BasicTableTwo() {
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <button
-                    type="button"
-                    className="rounded-lg border border-rose-500/30 p-2 text-rose-400 transition hover:border-rose-400/60 hover:text-rose-300"
-                    aria-label="Remove"
-                  >
-                    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
-                      <path d="M9 3.75A1.5 1.5 0 0 1 10.5 2.25h3A1.5 1.5 0 0 1 15 3.75V5.25h4.5a.75.75 0 0 1 0 1.5H19.5l-1.2 13.5a2.25 2.25 0 0 1-2.24 2.05H7.94a2.25 2.25 0 0 1-2.24-2.05L4.5 6.75H3a.75.75 0 0 1 0-1.5H7.5V3.75Zm3 4.5a.75.75 0 0 0-1.5 0v8.25a.75.75 0 0 0 1.5 0V8.25Zm4.5 0a.75.75 0 0 0-1.5 0v8.25a.75.75 0 0 0 1.5 0V8.25Z" />
-                    </svg>
-                  </button>
+                    <button
+                      type="button"
+                      className="rounded-lg border border-rose-500/30 p-2 text-rose-400 transition hover:border-rose-400/60 hover:text-rose-300"
+                      aria-label="Remove"
+                    >
+                      <Icon name="trash-solid" className="h-4 w-4" />
+                    </button>
                 </td>
               </tr>
             ))}

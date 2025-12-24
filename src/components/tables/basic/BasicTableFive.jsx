@@ -1,3 +1,5 @@
+import Icon from "../../template/Icon";
+
 const sales = [
   {
     product: "TailGrids",
@@ -65,17 +67,7 @@ export default function BasicTableFive() {
     <section className="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-lg shadow-black/20 backdrop-blur">
       <div className="flex items-center gap-2">
         <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/10 text-white/70">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-4 w-4"
-          >
-            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5M5.25 6.75v10.5A2.25 2.25 0 0 0 7.5 19.5h9A2.25 2.25 0 0 0 18.75 17.25V6.75M5.25 6.75V5.25A2.25 2.25 0 0 1 7.5 3h9A2.25 2.25 0 0 1 18.75 5.25v1.5M12 3v16.5" />
-          </svg>
+          <Icon name="table" className="h-4 w-4" />
         </span>
         <h2 className="text-lg font-semibold text-white">Basic Table 5</h2>
       </div>
@@ -92,34 +84,14 @@ export default function BasicTableFive() {
               type="button"
               className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-xs font-semibold text-white/70 transition hover:border-white/20 hover:text-white"
             >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-4 w-4"
-              >
-                <path d="M3 4.5h18L14.25 12v6.75a.75.75 0 0 1-1.2.6l-3-2.25a.75.75 0 0 1-.3-.6V12L3 4.5Z" />
-              </svg>
+              <Icon name="filter" className="h-4 w-4" />
               Filter
             </button>
             <button
               type="button"
               className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-xs font-semibold text-white/70 transition hover:border-white/20 hover:text-white"
             >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-4 w-4"
-              >
-                <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-              </svg>
+              <Icon name="arrow-right" className="h-4 w-4" />
               See all
             </button>
           </div>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import Icon from "../template/Icon";
 
 export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -47,18 +48,7 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
           aria-label="Toggle sidebar"
           className="rounded-xl cursor-pointer border border-white/10 px-3 py-2 text-white/60 transition hover:border-white/20 hover:text-white"
         >
-          <svg
-            className="h-5 w-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
+          <Icon name="menu" className="h-5 w-5" />
         </button>
         <div className="hidden items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/50 sm:flex">
           <span>Search or type command...</span>
@@ -73,36 +63,13 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
           type="button"
           className="h-10 w-10 rounded-full border border-white/10 text-white/60 transition hover:border-white/20 hover:text-white"
         >
-          <svg
-            className="mx-auto h-5 w-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-            <path d="M4.501 20.118a7.5 7.5 0 0 1 14.998 0A9.75 9.75 0 0 1 12 21.75a9.75 9.75 0 0 1-7.499-2.632Z" />
-          </svg>
+          <Icon name="user" className="mx-auto h-5 w-5" />
         </button>
         <button
           type="button"
           className="relative h-10 w-10 rounded-full border border-white/10 text-white/60 transition hover:border-white/20 hover:text-white"
         >
-          <svg
-            className="mx-auto h-5 w-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9a6 6 0 0 0-12 0v.75a8.967 8.967 0 0 1-2.311 6.022 23.848 23.848 0 0 0 5.454 1.31m5.714 0a3 3 0 1 1-5.714 0" />
-          </svg>
+          <Icon name="bell" className="mx-auto h-5 w-5" />
           <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-orange-400" />
         </button>
 
@@ -126,18 +93,7 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
             <div className="hidden text-sm text-slate-300 sm:block">
               {user?.first_name || "-"}
             </div>
-            <svg
-              className="h-4 w-4 text-slate-500"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M6 9l6 6 6-6" />
-            </svg>
+            <Icon name="chevron-down" className="h-4 w-4 text-slate-500" />
           </button>
           {isMenuOpen ? (
             <div className="absolute right-0 top-12 z-50 w-56 rounded-2xl border border-white/10 bg-slate-950 p-2 text-sm text-white/70 shadow-xl">
@@ -152,19 +108,7 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
                 onClick={() => setIsMenuOpen(false)}
               >
                 <span className="inline-flex items-center gap-2">
-                  <svg
-                    className="h-4 w-4"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                    <path d="M4.501 20.118a7.5 7.5 0 0 1 14.998 0A9.75 9.75 0 0 1 12 21.75a9.75 9.75 0 0 1-7.499-2.632Z" />
-                  </svg>
+                  <Icon name="profile" className="h-4 w-4" />
                   Account profile
                 </span>
               </Link>
@@ -174,18 +118,7 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
                 onClick={() => setIsMenuOpen(false)}
               >
                 <span className="inline-flex items-center gap-2">
-                  <svg
-                    className="h-4 w-4"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M4.5 6h3m3 6h9.75m-9.75 0a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M4.5 12h3m3 6h9.75m-9.75 0a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M4.5 18h3" />
-                  </svg>
+                  <Icon name="settings" className="h-4 w-4" />
                   Account setting
                 </span>
               </Link>
@@ -196,19 +129,7 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
                 className="w-full rounded-xl px-3 py-2 text-left text-rose-200 transition hover:bg-rose-500/10"
               >
                 <span className="inline-flex items-center gap-2">
-                  <svg
-                    className="h-4 w-4"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15" />
-                    <path d="M12 12h9m0 0-3-3m3 3-3 3" />
-                  </svg>
+                  <Icon name="logout" className="h-4 w-4" />
                   Sign out
                 </span>
               </button>
