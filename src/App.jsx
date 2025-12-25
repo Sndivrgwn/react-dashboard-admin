@@ -50,14 +50,8 @@ function App() {
               path="/ecommerce"
               element={<PlaceholderPage title="E-commerce" />}
             />
-            <Route
-              path="/ecommerce/products"
-              element={<ProductsPage />}
-            />
-            <Route
-              path="/ecommerce/add-product"
-              element={<AddProductPage />}
-            />
+            <Route path="/ecommerce/products" element={<ProductsPage />} />
+            <Route path="/ecommerce/add-product" element={<AddProductPage />} />
             <Route
               path="/ecommerce/billing"
               element={<PlaceholderPage title="Billing" />}
@@ -97,10 +91,7 @@ function App() {
             <Route path="/tasks" element={<PlaceholderPage title="Tasks" />} />
             <Route path="/forms" element={<PlaceholderPage title="Forms" />} />
             <Route path="/pages" element={<PlaceholderPage title="Pages" />} />
-            <Route
-              path="/tables/basic"
-              element={<BasicTablesPage />}
-            />
+            <Route path="/tables/basic" element={<BasicTablesPage />} />
             <Route
               path="/tables/data"
               element={<PlaceholderPage title="Data Tables" />}

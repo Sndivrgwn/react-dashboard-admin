@@ -127,7 +127,7 @@ export default function Sidebar({ isOpen = true }) {
                   name="chevron-down"
                   className={[
                     "h-4 w-4 transition-transform",
-                    isEcommerceOpen ? "rotate-0" : "rotate-180",
+                    isEcommerceOpen ? "rotate-180" : "rotate-0",
                   ].join(" ")}
                 />
               </span>

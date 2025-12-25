@@ -1,11 +1,40 @@
+import { useEffect, useState } from "react";
 import Icon from "../../template/Icon";
+import Combobox from "../../template/Combobox";
+import * as BrandService from "../../../services/Brand";
 
-const categories = ["Lighting", "Audio", "Furniture", "Accessories", "Wearables"];
-const brands = ["Lumina", "Aura", "Nimbus", "Vanta", "Orbit"];
+const categories = [
+  "Lighting",
+  "Audio",
+  "Furniture",
+  "Accessories",
+  "Wearables",
+];
 const colors = ["Midnight", "Slate", "Ivory", "Amber", "Cobalt"];
 const availabilityOptions = ["In stock", "Low stock", "Out of stock"];
 
 export default function AddProductPage() {
+  const [brands, setBrands] = useState([]);
+  const [brand, setBrand] = useState("");
+  const [category, setCategory] = useState("");
+  const [color, setColor] = useState("");
+
+  const fetchBrand = async () => {
+    try {
+      const res = await BrandService.fetchBrand();
+
+      const brand = res.brand.map((b) => b.name);
+
+      setBrands(brand);
+    } catch {
+      setBrands(null);
+    }
+  };
+
+  useEffect(() => {
+    fetchBrand();
+  }, []);
+
   return (
     <div className="mx-auto w-full max-w-6xl space-y-6 text-white">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -29,7 +58,10 @@ export default function AddProductPage() {
               </h2>
               <div className="mt-6 grid gap-4 lg:grid-cols-2">
                 <div className="space-y-2">
-                  <label className="text-sm text-white/70" htmlFor="productName">
+                  <label
+                    className="text-sm text-white/70"
+                    htmlFor="productName"
+                  >
                     Product Name
                   </label>
                   <input
@@ -39,72 +71,30 @@ export default function AddProductPage() {
                     className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm text-white/70" htmlFor="category">
-                    Category
-                  </label>
-              <div className="relative">
-                <select
+                <Combobox
                   id="category"
-                  className="w-full appearance-none rounded-xl border border-white/10 bg-slate-950/60 px-4 py-2 pr-10 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
-                >
-                  <option value="">Select a category</option>
-                  {categories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
-                <Icon
-                  name="chevron-down"
-                  className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60"
+                  label="Category"
+                  value={category}
+                  onChange={setCategory}
+                  options={categories}
+                  placeholder="Select a category"
                 />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm text-white/70" htmlFor="brand">
-                Brand
-              </label>
-              <div className="relative">
-                <select
+                <Combobox
                   id="brand"
-                  className="w-full appearance-none rounded-xl border border-white/10 bg-slate-950/60 px-4 py-2 pr-10 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
-                >
-                  <option value="">Select brand</option>
-                  {brands.map((brand) => (
-                    <option key={brand} value={brand}>
-                      {brand}
-                    </option>
-                  ))}
-                </select>
-                <Icon
-                  name="chevron-down"
-                  className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60"
+                  label="Brand"
+                  value={brand}
+                  onChange={setBrand}
+                  options={brands || []}
+                  placeholder="Select a brand"
                 />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm text-white/70" htmlFor="color">
-                Color
-              </label>
-              <div className="relative">
-                <select
+                <Combobox
                   id="color"
-                  className="w-full appearance-none rounded-xl border border-white/10 bg-slate-950/60 px-4 py-2 pr-10 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
-                >
-                  <option value="">Select color</option>
-                  {colors.map((color) => (
-                    <option key={color} value={color}>
-                      {color}
-                    </option>
-                  ))}
-                </select>
-                <Icon
-                  name="chevron-down"
-                  className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60"
+                  label="Color"
+                  value={color}
+                  onChange={setColor}
+                  options={colors}
+                  placeholder="Select color"
                 />
-              </div>
-            </div>
               </div>
 
               <div className="mt-6 grid gap-4 lg:grid-cols-3">
@@ -173,7 +163,10 @@ export default function AddProductPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm text-white/70" htmlFor="stockQuantity">
+                  <label
+                    className="text-sm text-white/70"
+                    htmlFor="stockQuantity"
+                  >
                     Stock Quantity
                   </label>
                   <div className="flex h-11 items-center rounded-xl border border-white/10 bg-white/5 px-2">
@@ -248,9 +241,7 @@ export default function AddProductPage() {
             </div>
 
             <div className="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-lg shadow-black/20 backdrop-blur">
-              <h2 className="text-base font-semibold text-white">
-                Publishing
-              </h2>
+              <h2 className="text-base font-semibold text-white">Publishing</h2>
               <div className="mt-4 space-y-3 text-sm text-white/60">
                 <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2">
                   <span>Visibility</span>

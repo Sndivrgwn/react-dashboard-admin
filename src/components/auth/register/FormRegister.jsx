@@ -22,14 +22,16 @@ export default function FormRegister() {
 
     try {
       const registrationData = {
-        name: `${firstName} ${lastName}`.trim(),
         first_name: firstName,
         last_name: lastName,
         email: email,
         password: password,
       };
 
+      console.log(firstName);
       const res = await register(registrationData);
+      
+      
       const fieldErrors =
         res?.errors || res?.validation_errors || res?.["Validation error"];
 

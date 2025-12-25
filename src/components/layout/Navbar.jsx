@@ -86,7 +86,7 @@ export default function Navbar({ isSidebarOpen, onToggleSidebar }) {
                     className="h-8 w-8  rounded-full object-cover"
                   />
                 ) : (
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/10 text-lg font-semibold text-white">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-sm font-semibold text-white">
                     {`${user?.first_name?.[0] || "U"}${user?.last_name?.[0] || ""}`}
                   </div>
                 )}
