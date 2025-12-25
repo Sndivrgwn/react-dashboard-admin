@@ -1,65 +1,91 @@
+import { useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
 import Icon from "../../template/Icon";
-
-const products = [
-  {
-    name: "Lumen Desk Lamp",
-    sku: "LP-1023",
-    category: "Lighting",
-    price: "$89.00",
-    stock: "128",
-    status: "Active",
-  },
-  {
-    name: "Aura Headphones",
-    sku: "AU-8391",
-    category: "Audio",
-    price: "$249.00",
-    stock: "42",
-    status: "Low stock",
-  },
-  {
-    name: "Nimbus Chair",
-    sku: "NC-4488",
-    category: "Furniture",
-    price: "$399.00",
-    stock: "18",
-    status: "Low stock",
-  },
-  {
-    name: "Vanta Backpack",
-    sku: "VB-2207",
-    category: "Accessories",
-    price: "$129.00",
-    stock: "210",
-    status: "Active",
-  },
-  {
-    name: "Orbit Watch",
-    sku: "OW-5520",
-    category: "Wearables",
-    price: "$189.00",
-    stock: "64",
-    status: "Active",
-  },
-  {
-    name: "Flux Coffee Kit",
-    sku: "FC-9912",
-    category: "Kitchen",
-    price: "$59.00",
-    stock: "0",
-    status: "Out of stock",
-  },
-];
+import ErrorBanner from "../../error/banner/ErrorBanner";
+import { useProducts } from "../../../context/ProductsContext";
 
 const statusStyles = {
-  Active: "bg-emerald-500/15 text-emerald-300",
-  "Low stock": "bg-amber-500/15 text-amber-300",
-  "Out of stock": "bg-rose-500/15 text-rose-300",
+  "in stock": "bg-emerald-500/15 text-emerald-300",
+  "out of stock": "bg-rose-500/15 text-rose-300",
+  preorder: "bg-amber-500/15 text-amber-300",
+};
+
+const availabilityLabels = {
+  in_stock: "In stock",
+  out_of_stock: "Out of stock",
+  preorder: "Preorder",
+};
+
+const formatCurrency = (value) => {
+  if (value === null || value === undefined || value === "") return "-";
+  const numberValue = Number(value);
+  if (Number.isNaN(numberValue)) return String(value);
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(numberValue);
 };
 
 export default function ProductsPage() {
+  const { products, isLoading, errorMessage, loadProducts } = useProducts();
+
+  useEffect(() => {
+    loadProducts();
+  }, [loadProducts]);
+
+  const rows = useMemo(() => {
+    const apiHost = "http://127.0.0.1:8000";
+    return products.map((product) => {
+      const availabilityKey = String(
+        product.availability_status || product.status || ""
+      )
+        .replace(/_/g, " ")
+        .toLowerCase();
+      const rawImage =
+        product.image_url ||
+        product.image ||
+        product.thumbnail ||
+        product.photo ||
+        "";
+      const imageSrc = rawImage
+        ? rawImage.startsWith("http")
+          ? rawImage
+          : `${apiHost}/${rawImage.startsWith("storage/") ? "" : "storage/"}${rawImage}`
+        : "";
+      const initials = (product.name || "-")
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part[0])
+        .join("")
+        .toUpperCase();
+      return {
+        id: product.id || product.SKU || product.sku || product.name,
+        name: product.name || "-",
+        sku: product.SKU || product.sku || "-",
+        category:
+          product.category?.name ||
+          product.category_name ||
+          product.category ||
+          "-",
+        price: formatCurrency(product.price),
+        stock: product.stock_quantity ?? product.stock ?? "-",
+        availabilityKey,
+        imageSrc,
+        initials,
+        availabilityLabel:
+          availabilityLabels[product.availability_status] ||
+          availabilityLabels[product.status] ||
+          product.availability_status ||
+          product.status ||
+          "-",
+      };
+    });
+  }, [products]);
+
   return (
     <div className="mx-auto w-full max-w-6xl space-y-6 text-white">
+      {errorMessage ? <ErrorBanner message={errorMessage} /> : null}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-sm text-white/50">E-commerce</p>
@@ -80,13 +106,13 @@ export default function ProductsPage() {
             <Icon name="download" className="h-4 w-4" />
             Export
           </button>
-          <button
-            type="button"
+          <Link
+            to="/ecommerce/add-product"
             className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-white/90"
           >
             <Icon name="plus" className="h-4 w-4" />
             Add product
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -122,50 +148,76 @@ export default function ProductsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5 text-white/80">
-              {products.map((product) => (
-                <tr key={product.sku} className="hover:bg-white/5">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-xs font-semibold text-white">
-                        {product.name
-                          .split(" ")
-                          .map((part) => part[0])
-                          .join("")}
-                      </div>
-                      <span className="font-semibold text-white">
-                        {product.name}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-white/70">{product.sku}</td>
-                  <td className="px-6 py-4 text-white/70">
-                    {product.category}
-                  </td>
-                  <td className="px-6 py-4">{product.price}</td>
-                  <td className="px-6 py-4 text-white/70">
-                    {product.stock}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={[
-                        "inline-flex rounded-full px-3 py-1 text-xs font-semibold",
-                        statusStyles[product.status],
-                      ].join(" ")}
-                    >
-                      {product.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <button
-                      type="button"
-                      className="inline-flex items-center justify-center rounded-lg border border-white/10 p-2 text-white/60 transition hover:border-white/20 hover:text-white"
-                      aria-label="View product"
-                    >
-                      <Icon name="eye" className="h-4 w-4" />
-                    </button>
+              {isLoading ? (
+                <tr>
+                  <td
+                    colSpan={7}
+                    className="px-6 py-8 text-center text-white/60"
+                  >
+                    Loading products...
                   </td>
                 </tr>
-              ))}
+              ) : rows.length ? (
+                rows.map((product) => (
+                  <tr key={product.id} className="hover:bg-white/5">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        {product.imageSrc ? (
+                          <img
+                            src={product.imageSrc}
+                            alt={product.name}
+                            className="h-10 w-10 rounded-xl object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-xs font-semibold text-white">
+                            {product.initials || "--"}
+                          </div>
+                        )}
+                        <span className="font-semibold text-white">
+                          {product.name}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-white/70">{product.sku}</td>
+                    <td className="px-6 py-4 text-white/70">
+                      {product.category}
+                    </td>
+                    <td className="px-6 py-4">{product.price}</td>
+                    <td className="px-6 py-4 text-white/70">
+                      {product.stock}
+                    </td>
+                    <td className="px-6 py-4">
+                      <span
+                        className={[
+                          "inline-flex whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold",
+                          statusStyles[product.availabilityKey] ||
+                            "bg-white/10 text-white/60",
+                        ].join(" ")}
+                      >
+                        {product.availabilityLabel}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <button
+                        type="button"
+                        className="inline-flex items-center justify-center rounded-lg border border-white/10 p-2 text-white/60 transition hover:border-white/20 hover:text-white"
+                        aria-label="View product"
+                      >
+                        <Icon name="eye" className="h-4 w-4" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={7}
+                    className="px-6 py-8 text-center text-white/60"
+                  >
+                    No products found.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

@@ -1,33 +1,50 @@
 import { useEffect, useMemo, useState } from "react";
-import Icon from "../../template/Icon";
-import Combobox from "../../template/Combobox";
+import { useNavigate } from "react-router-dom";
+import ProductDescriptionSection from "./sections/ProductDescriptionSection";
+import PricingAvailabilitySection from "./sections/PricingAvailabilitySection";
+import ProductImagesCard from "./sections/ProductImagesCard";
+import PublishingCard from "./sections/PublishingCard";
+import ScheduleModal from "./sections/ScheduleModal";
 import * as BrandService from "../../../services/Brand";
 import * as CategoryService from "../../../services/Category";
 import colorData from "../../../dataset/color/color.json";
+import ErrorBanner from "../../error/banner/ErrorBanner";
+import SuccessBanner from "../../error/banner/SuccessBanner";
+import LoadingOverlay from "../../template/LoadingOverlay";
+import { ProductProvider, useProductForm } from "../../../context/ProductContext";
 
 const colors = colorData;
-const availabilityOptions = ["In stock", "Low stock", "Out of stock"];
+const availabilityOptions = [
+  { label: "In stock", value: "in_stock" },
+  { label: "Out of stock", value: "out_of_stock" },
+  { label: "Preorder", value: "preorder" },
+];
 
-export default function AddProductPage() {
+function AddProductContent() {
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("");
-  const [color, setColor] = useState("");
   const colorOptions = useMemo(
     () => colors.map((item) => ({ label: item.name, value: item.hex })),
     []
   );
+  const {
+    errorMessage,
+    successMessage,
+    isScheduleOpen,
+    setIsScheduleOpen,
+    isSubmitting,
+  } = useProductForm();
+  const navigate = useNavigate();
 
   const fetchBrand = async () => {
     try {
       const res = await BrandService.fetchBrand();
 
-      const brand = res.brand.map((b) => b.name);
+      const brand = res.brand.map((b) => ({ label: b.name, value: b.id }));
 
       setBrands(brand);
     } catch {
-      setBrands(null);
+      setBrands([]);
     }
   };
 
@@ -35,11 +52,11 @@ export default function AddProductPage() {
      try {
       const res = await CategoryService.fetchCategory();
 
-      const category = res.category.map((c) => c.name)
+      const category = res.category.map((c) => ({ label: c.name, value: c.id }))
 
       setCategories(category)
      } catch {
-      setCategories(null)
+      setCategories([])
      }
   }
 
@@ -48,8 +65,19 @@ export default function AddProductPage() {
     fetchCategory();
   }, []);
 
+  useEffect(() => {
+    if (!successMessage) return;
+    const timeoutId = setTimeout(() => {
+      navigate("/ecommerce/products");
+    }, 1200);
+    return () => clearTimeout(timeoutId);
+  }, [successMessage, navigate]);
+
   return (
     <div className="mx-auto w-full max-w-6xl space-y-6 text-white">
+      {isSubmitting ? <LoadingOverlay message="Saving product..." /> : null}
+      {errorMessage ? <ErrorBanner message={errorMessage} /> : null}
+      {successMessage ? <SuccessBanner message={successMessage} /> : null}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-sm text-white/50">E-commerce</p>
@@ -65,229 +93,34 @@ export default function AddProductPage() {
       <form className="space-y-6">
         <div className="grid gap-6 lg:grid-cols-[2.1fr_1fr]">
           <section className="space-y-6">
-            <div className="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-lg shadow-black/20 backdrop-blur">
-              <h2 className="text-base font-semibold text-white">
-                Products Description
-              </h2>
-              <div className="mt-6 grid gap-4 lg:grid-cols-2">
-                <div className="space-y-2">
-                  <label
-                    className="text-sm text-white/70"
-                    htmlFor="productName"
-                  >
-                    Product Name
-                  </label>
-                  <input
-                    id="productName"
-                    type="text"
-                    placeholder="Enter product name"
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
-                  />
-                </div>
-                <Combobox
-                  id="category"
-                  label="Category"
-                  value={category}
-                  onChange={setCategory}
-                  options={categories}
-                  placeholder="Select a category"
-                />
-                <Combobox
-                  id="brand"
-                  label="Brand"
-                  value={brand}
-                  onChange={setBrand}
-                  options={brands || []}
-                  placeholder="Select a brand"
-                />
-                <Combobox
-                  id="color"
-                  label="Color"
-                  value={color}
-                  onChange={setColor}
-                  options={colorOptions}
-                  placeholder="Select color"
-                  showSwatch
-                />
-              </div>
-
-              <div className="mt-6 grid gap-4 lg:grid-cols-3">
-                <div className="space-y-2">
-                  <label className="text-sm text-white/70" htmlFor="weight">
-                    Weight(KG)
-                  </label>
-                  <input
-                    id="weight"
-                    type="text"
-                    placeholder="15"
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm text-white/70" htmlFor="length">
-                    Length(CM)
-                  </label>
-                  <input
-                    id="length"
-                    type="text"
-                    placeholder="120"
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm text-white/70" htmlFor="width">
-                    Width(CM)
-                  </label>
-                  <input
-                    id="width"
-                    type="text"
-                    placeholder="23"
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
-                  />
-                </div>
-              </div>
-
-              <div className="mt-6 space-y-2">
-                <label className="text-sm text-white/70" htmlFor="description">
-                  Description
-                </label>
-                <textarea
-                  id="description"
-                  rows={4}
-                  placeholder="Receipt info (optional)"
-                  className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
-                />
-              </div>
-            </div>
-
-            <div className="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-lg shadow-black/20 backdrop-blur">
-              <h2 className="text-base font-semibold text-white">
-                Pricing &amp; Availability
-              </h2>
-              <div className="mt-6 grid gap-4 lg:grid-cols-2">
-                <div className="space-y-2">
-                  <label className="text-sm text-white/70" htmlFor="price">
-                    Price
-                  </label>
-                  <input
-                    id="price"
-                    type="text"
-                    placeholder="$0.00"
-                    className="h-11 w-full rounded-xl border border-white/10 bg-white/5 px-4 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label
-                    className="text-sm text-white/70"
-                    htmlFor="stockQuantity"
-                  >
-                    Stock Quantity
-                  </label>
-                  <div className="flex h-11 items-center rounded-xl border border-white/10 bg-white/5 px-2">
-                    <button
-                      type="button"
-                      className="h-8 w-8 rounded-lg border border-white/10 text-white/60 transition hover:border-white/20 hover:text-white"
-                    >
-                      -
-                    </button>
-                    <input
-                      id="stockQuantity"
-                      type="text"
-                      placeholder="0"
-                      className="mx-2 flex-1 bg-transparent text-center text-white/80 outline-none"
-                    />
-                    <button
-                      type="button"
-                      className="h-8 w-8 rounded-lg border border-white/10 text-white/60 transition hover:border-white/20 hover:text-white"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 space-y-2">
-                <label className="text-sm text-white/70" htmlFor="availability">
-                  Availability Status
-                </label>
-                <div className="relative">
-                  <select
-                    id="availability"
-                    className="h-11 w-full appearance-none rounded-xl border border-white/10 bg-slate-950/60 px-4 pr-10 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
-                  >
-                    <option value="">Select Availability</option>
-                    {availabilityOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  <Icon
-                    name="chevron-down"
-                    className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60"
-                  />
-                </div>
-              </div>
-            </div>
+            <ProductDescriptionSection
+              categories={categories}
+              brands={brands}
+              colorOptions={colorOptions}
+            />
+            <PricingAvailabilitySection
+              availabilityOptions={availabilityOptions}
+            />
           </section>
 
           <aside className="space-y-6">
-            <div className="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-lg shadow-black/20 backdrop-blur">
-              <div className="flex items-center justify-between">
-                <h2 className="text-base font-semibold text-white">
-                  Products Images
-                </h2>
-                <span className="rounded-full border border-white/10 px-2 py-1 text-xs text-white/50">
-                  3 max
-                </span>
-              </div>
-              <div className="mt-6 rounded-2xl border border-dashed border-white/20 bg-white/5 p-6 text-center text-sm text-white/60">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-slate-950/60 text-white/70">
-                  <Icon name="upload" className="h-5 w-5" />
-                </div>
-                <p className="mt-4 text-sm font-semibold text-white/80">
-                  Click to upload or drag and drop
-                </p>
-                <p className="mt-1 text-xs text-white/50">
-                  SVG, PNG, JPG or GIF (MAX 800x400px)
-                </p>
-              </div>
-            </div>
-
-            <div className="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-lg shadow-black/20 backdrop-blur">
-              <h2 className="text-base font-semibold text-white">Publishing</h2>
-              <div className="mt-4 space-y-3 text-sm text-white/60">
-                <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-                  <span>Visibility</span>
-                  <span className="text-white/80">Public</span>
-                </div>
-                <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-                  <span>Schedule</span>
-                  <span className="text-white/80">Immediately</span>
-                </div>
-                <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-                  <span>Channel</span>
-                  <span className="text-white/80">Online</span>
-                </div>
-              </div>
-              <div className="mt-6 flex flex-col gap-2">
-                <button
-                  type="button"
-                  className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-white/90"
-                >
-                  Publish Product
-                </button>
-                <button
-                  type="button"
-                  className="rounded-xl border border-white/10 px-4 py-2 text-sm text-white/70 transition hover:border-white/20 hover:text-white"
-                >
-                  Save draft
-                </button>
-              </div>
-            </div>
+            <ProductImagesCard />
+            <PublishingCard onOpenSchedule={() => setIsScheduleOpen(true)} />
           </aside>
         </div>
       </form>
+      <ScheduleModal
+        isOpen={isScheduleOpen}
+        onClose={() => setIsScheduleOpen(false)}
+      />
     </div>
+  );
+}
+
+export default function AddProductPage() {
+  return (
+    <ProductProvider>
+      <AddProductContent />
+    </ProductProvider>
   );
 }

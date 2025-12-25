@@ -57,6 +57,10 @@ export default function Combobox({
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="none"
+          spellCheck={false}
           placeholder={placeholder}
           className="h-11 w-full rounded-xl border border-white/10 bg-white/5 px-4 pr-16 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
         />

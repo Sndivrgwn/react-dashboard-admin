@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Outlet } from "react-router-dom";
 import "./App.css";
 import Login from "./components/auth/login/LoginPage";
 import Register from "./components/auth/register/RegisterPage";
@@ -14,6 +14,7 @@ import BackgroundAnimation from "./components/template/BackgroundAnimation";
 import BasicTablesPage from "./components/tables/basic/BasicTablesPage";
 import ProductsPage from "./components/ecommerce/products/ProductsPage";
 import AddProductPage from "./components/ecommerce/products/AddProductPage";
+import { ProductsProvider } from "./context/ProductsContext";
 
 function PlaceholderPage({ title, description }) {
   return (
@@ -40,62 +41,70 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<AppLayout />}>
-            <Route index element={<PlaceholderPage title="Dashboard" />} />
-            <Route path="/profile" element={<Profile />} />
             <Route
-              path="/assistant"
-              element={<PlaceholderPage title="AI Assistant" />}
-            />
-            <Route
-              path="/ecommerce"
-              element={<PlaceholderPage title="E-commerce" />}
-            />
-            <Route path="/ecommerce/products" element={<ProductsPage />} />
-            <Route path="/ecommerce/add-product" element={<AddProductPage />} />
-            <Route
-              path="/ecommerce/billing"
-              element={<PlaceholderPage title="Billing" />}
-            />
-            <Route
-              path="/ecommerce/invoice"
-              element={<PlaceholderPage title="Invoice" />}
-            />
-            <Route
-              path="/ecommerce/invoice/single"
-              element={<PlaceholderPage title="Single Invoice" />}
-            />
-            <Route
-              path="/ecommerce/invoice/create"
-              element={<PlaceholderPage title="Create Invoice" />}
-            />
-            <Route
-              path="/ecommerce/transactions"
-              element={<PlaceholderPage title="Transaction" />}
-            />
-            <Route
-              path="/ecommerce/transactions/add"
-              element={<PlaceholderPage title="Add Transactions" />}
-            />
-            <Route
-              path="/ecommerce/receipt"
-              element={<PlaceholderPage title="Receipt" />}
-            />
-            <Route
-              path="/ecommerce/refund"
-              element={<PlaceholderPage title="Refund" />}
-            />
-            <Route
-              path="/calendar"
-              element={<PlaceholderPage title="Calendar" />}
-            />
-            <Route path="/tasks" element={<PlaceholderPage title="Tasks" />} />
-            <Route path="/forms" element={<PlaceholderPage title="Forms" />} />
-            <Route path="/pages" element={<PlaceholderPage title="Pages" />} />
-            <Route path="/tables/basic" element={<BasicTablesPage />} />
-            <Route
-              path="/tables/data"
-              element={<PlaceholderPage title="Data Tables" />}
-            />
+              element={
+                <ProductsProvider>
+                  <Outlet />
+                </ProductsProvider>
+              }
+            >
+              <Route index element={<PlaceholderPage title="Dashboard" />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route
+                path="/assistant"
+                element={<PlaceholderPage title="AI Assistant" />}
+              />
+              <Route
+                path="/ecommerce"
+                element={<PlaceholderPage title="E-commerce" />}
+              />
+              <Route path="/ecommerce/products" element={<ProductsPage />} />
+              <Route path="/ecommerce/add-product" element={<AddProductPage />} />
+              <Route
+                path="/ecommerce/billing"
+                element={<PlaceholderPage title="Billing" />}
+              />
+              <Route
+                path="/ecommerce/invoice"
+                element={<PlaceholderPage title="Invoice" />}
+              />
+              <Route
+                path="/ecommerce/invoice/single"
+                element={<PlaceholderPage title="Single Invoice" />}
+              />
+              <Route
+                path="/ecommerce/invoice/create"
+                element={<PlaceholderPage title="Create Invoice" />}
+              />
+              <Route
+                path="/ecommerce/transactions"
+                element={<PlaceholderPage title="Transaction" />}
+              />
+              <Route
+                path="/ecommerce/transactions/add"
+                element={<PlaceholderPage title="Add Transactions" />}
+              />
+              <Route
+                path="/ecommerce/receipt"
+                element={<PlaceholderPage title="Receipt" />}
+              />
+              <Route
+                path="/ecommerce/refund"
+                element={<PlaceholderPage title="Refund" />}
+              />
+              <Route
+                path="/calendar"
+                element={<PlaceholderPage title="Calendar" />}
+              />
+              <Route path="/tasks" element={<PlaceholderPage title="Tasks" />} />
+              <Route path="/forms" element={<PlaceholderPage title="Forms" />} />
+              <Route path="/pages" element={<PlaceholderPage title="Pages" />} />
+              <Route path="/tables/basic" element={<BasicTablesPage />} />
+              <Route
+                path="/tables/data"
+                element={<PlaceholderPage title="Data Tables" />}
+              />
+            </Route>
           </Route>
         </Route>
       </Routes>
