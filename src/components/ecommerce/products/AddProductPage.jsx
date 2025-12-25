@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Icon from "../../template/Icon";
 import Combobox from "../../template/Combobox";
 import * as BrandService from "../../../services/Brand";
+import * as CategoryService from "../../../services/Category";
+import colorData from "../../../dataset/color/color.json";
 
-const categories = [
-  "Lighting",
-  "Audio",
-  "Furniture",
-  "Accessories",
-  "Wearables",
-];
-const colors = ["Midnight", "Slate", "Ivory", "Amber", "Cobalt"];
+const colors = colorData;
 const availabilityOptions = ["In stock", "Low stock", "Out of stock"];
 
 export default function AddProductPage() {
   const [brands, setBrands] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
   const [color, setColor] = useState("");
+  const colorOptions = useMemo(
+    () => colors.map((item) => ({ label: item.name, value: item.hex })),
+    []
+  );
 
   const fetchBrand = async () => {
     try {
@@ -31,8 +31,21 @@ export default function AddProductPage() {
     }
   };
 
+  const fetchCategory = async () => {
+     try {
+      const res = await CategoryService.fetchCategory();
+
+      const category = res.category.map((c) => c.name)
+
+      setCategories(category)
+     } catch {
+      setCategories(null)
+     }
+  }
+
   useEffect(() => {
     fetchBrand();
+    fetchCategory();
   }, []);
 
   return (
@@ -92,8 +105,9 @@ export default function AddProductPage() {
                   label="Color"
                   value={color}
                   onChange={setColor}
-                  options={colors}
+                  options={colorOptions}
                   placeholder="Select color"
+                  showSwatch
                 />
               </div>
 

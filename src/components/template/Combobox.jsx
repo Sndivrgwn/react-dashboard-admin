@@ -8,14 +8,24 @@ export default function Combobox({
   onChange,
   options,
   placeholder,
+  showSwatch = false,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState(value || "");
   const wrapperRef = useRef(null);
 
+  const normalized = options.map((option) =>
+    typeof option === "string" ? { label: option, value: option } : option
+  );
+
+  const filtered = normalized.filter((option) =>
+    option.label.toLowerCase().includes(query.toLowerCase())
+  );
+
   useEffect(() => {
-    setQuery(value || "");
-  }, [value]);
+    const matched = normalized.find((option) => option.value === value);
+    setQuery(matched ? matched.label : value || "");
+  }, [value, normalized]);
 
   useEffect(() => {
     const handleOutside = (event) => {
@@ -26,10 +36,6 @@ export default function Combobox({
     document.addEventListener("mousedown", handleOutside);
     return () => document.removeEventListener("mousedown", handleOutside);
   }, []);
-
-  const filtered = options.filter((option) =>
-    option.toLowerCase().includes(query.toLowerCase())
-  );
 
   return (
     <div className="space-y-2" ref={wrapperRef}>
@@ -43,8 +49,11 @@ export default function Combobox({
           value={query}
           onChange={(event) => {
             const nextValue = event.target.value;
+            const matched = normalized.find(
+              (option) => option.label.toLowerCase() === nextValue.toLowerCase()
+            );
             setQuery(nextValue);
-            onChange?.(nextValue);
+            onChange?.(matched ? matched.value : nextValue);
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
@@ -59,16 +68,22 @@ export default function Combobox({
             {filtered.length ? (
               filtered.map((option) => (
                 <button
-                  key={option}
+                  key={option.value}
                   type="button"
                   onClick={() => {
-                    setQuery(option);
-                    onChange?.(option);
+                    setQuery(option.label);
+                    onChange?.(option.value);
                     setIsOpen(false);
                   }}
                   className="flex w-full items-center rounded-xl px-3 py-2 text-left text-white/80 transition hover:bg-white/10 hover:text-white"
                 >
-                  {option}
+                  {showSwatch ? (
+                    <span
+                      className="mr-2 h-3 w-3 rounded-full border border-white/20"
+                      style={{ backgroundColor: option.value }}
+                    />
+                  ) : null}
+                  {option.label}
                 </button>
               ))
             ) : (
