@@ -14,7 +14,10 @@ import BackgroundAnimation from "./components/template/BackgroundAnimation";
 import BasicTablesPage from "./components/tables/basic/BasicTablesPage";
 import ProductsPage from "./components/ecommerce/products/ProductsPage";
 import AddProductPage from "./components/ecommerce/products/AddProductPage";
+import BrandsPage from "./components/ecommerce/brands/BrandsPage";
+import CategoriesPage from "./components/ecommerce/categories/CategoriesPage";
 import { ProductsProvider } from "./context/ProductsContext";
+import { CatalogProvider } from "./context/CatalogContext";
 
 function PlaceholderPage({ title, description }) {
   return (
@@ -44,7 +47,9 @@ function App() {
             <Route
               element={
                 <ProductsProvider>
-                  <Outlet />
+                  <CatalogProvider>
+                    <Outlet />
+                  </CatalogProvider>
                 </ProductsProvider>
               }
             >
@@ -59,6 +64,8 @@ function App() {
                 element={<PlaceholderPage title="E-commerce" />}
               />
               <Route path="/ecommerce/products" element={<ProductsPage />} />
+              <Route path="/ecommerce/brands" element={<BrandsPage />} />
+              <Route path="/ecommerce/categories" element={<CategoriesPage />} />
               <Route path="/ecommerce/add-product" element={<AddProductPage />} />
               <Route
                 path="/ecommerce/billing"

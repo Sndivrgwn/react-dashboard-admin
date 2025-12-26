@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Icon from "../../template/Icon";
+import DataTableCard from "../../tables/data/DataTableCard";
 import ErrorBanner from "../../error/banner/ErrorBanner";
 import { useProducts } from "../../../context/ProductsContext";
 
@@ -116,14 +117,10 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      <div className="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-lg shadow-black/20 backdrop-blur">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h2 className="text-lg font-semibold text-white">Product list</h2>
-            <p className="text-sm text-white/50">
-              Manage inventory, pricing, and availability.
-            </p>
-          </div>
+      <DataTableCard
+        title="Product list"
+        description="Manage inventory, pricing, and availability."
+        toolbar={
           <div className="flex w-full max-w-xs items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white/60">
             <Icon name="search" className="h-4 w-4 text-white/50" />
             <input
@@ -132,9 +129,40 @@ export default function ProductsPage() {
               className="w-full bg-transparent text-white/80 outline-none placeholder:text-white/40"
             />
           </div>
-        </div>
-
-        <div className="mt-6 overflow-hidden rounded-2xl border border-white/10">
+        }
+        footer={
+          <>
+            <span>Showing 1-6 of 24 results</span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                className="rounded-lg border border-white/10 px-3 py-2 text-white/60 transition hover:border-white/20 hover:text-white"
+              >
+                Previous
+              </button>
+              <button
+                type="button"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-slate-900"
+              >
+                1
+              </button>
+              <button type="button" className="px-2 text-white/60">
+                2
+              </button>
+              <button type="button" className="px-2 text-white/60">
+                3
+              </button>
+              <button
+                type="button"
+                className="rounded-lg border border-white/10 px-3 py-2 text-white/60 transition hover:border-white/20 hover:text-white"
+              >
+                Next
+              </button>
+            </div>
+          </>
+        }
+      >
+        <div className="overflow-hidden rounded-2xl border border-white/10">
           <table className="min-w-full text-sm">
             <thead className="text-left text-white/60">
               <tr>
@@ -221,37 +249,7 @@ export default function ProductsPage() {
             </tbody>
           </table>
         </div>
-
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-2 text-xs text-white/50">
-          <span>Showing 1-6 of 24 results</span>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="rounded-lg border border-white/10 px-3 py-2 text-white/60 transition hover:border-white/20 hover:text-white"
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-slate-900"
-            >
-              1
-            </button>
-            <button type="button" className="px-2 text-white/60">
-              2
-            </button>
-            <button type="button" className="px-2 text-white/60">
-              3
-            </button>
-            <button
-              type="button"
-              className="rounded-lg border border-white/10 px-3 py-2 text-white/60 transition hover:border-white/20 hover:text-white"
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      </div>
+      </DataTableCard>
     </div>
   );
 }

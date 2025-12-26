@@ -1,17 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductDescriptionSection from "./sections/ProductDescriptionSection";
 import PricingAvailabilitySection from "./sections/PricingAvailabilitySection";
 import ProductImagesCard from "./sections/ProductImagesCard";
 import PublishingCard from "./sections/PublishingCard";
 import ScheduleModal from "./sections/ScheduleModal";
-import * as BrandService from "../../../services/Brand";
-import * as CategoryService from "../../../services/Category";
 import colorData from "../../../dataset/color/color.json";
 import ErrorBanner from "../../error/banner/ErrorBanner";
 import SuccessBanner from "../../error/banner/SuccessBanner";
 import LoadingOverlay from "../../template/LoadingOverlay";
 import { ProductProvider, useProductForm } from "../../../context/ProductContext";
+import { useCatalog } from "../../../context/CatalogContext";
 
 const colors = colorData;
 const availabilityOptions = [
@@ -21,8 +20,7 @@ const availabilityOptions = [
 ];
 
 function AddProductContent() {
-  const [brands, setBrands] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const { brands, categories, loadCatalog } = useCatalog();
   const colorOptions = useMemo(
     () => colors.map((item) => ({ label: item.name, value: item.hex })),
     []
@@ -36,34 +34,9 @@ function AddProductContent() {
   } = useProductForm();
   const navigate = useNavigate();
 
-  const fetchBrand = async () => {
-    try {
-      const res = await BrandService.fetchBrand();
-
-      const brand = res.brand.map((b) => ({ label: b.name, value: b.id }));
-
-      setBrands(brand);
-    } catch {
-      setBrands([]);
-    }
-  };
-
-  const fetchCategory = async () => {
-     try {
-      const res = await CategoryService.fetchCategory();
-
-      const category = res.category.map((c) => ({ label: c.name, value: c.id }))
-
-      setCategories(category)
-     } catch {
-      setCategories([])
-     }
-  }
-
   useEffect(() => {
-    fetchBrand();
-    fetchCategory();
-  }, []);
+    loadCatalog();
+  }, [loadCatalog]);
 
   useEffect(() => {
     if (!successMessage) return;

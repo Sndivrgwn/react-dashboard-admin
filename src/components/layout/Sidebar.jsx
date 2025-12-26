@@ -14,6 +14,8 @@ const navItems = [
 
 const ecommerceItems = [
   { label: "Products", to: "/ecommerce/products" },
+  { label: "Brands", to: "/ecommerce/brands" },
+  { label: "Categories", to: "/ecommerce/categories" },
   { label: "Add Products", to: "/ecommerce/add-product" },
   { label: "Billing", to: "/ecommerce/billing" },
   { label: "Invoice", to: "/ecommerce/invoice" },
