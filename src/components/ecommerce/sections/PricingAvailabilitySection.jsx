@@ -1,5 +1,5 @@
-import Icon from "../../../template/Icon";
-import { useProductForm } from "../../../../context/ProductContext";
+import Icon from "../../template/Icon";
+import { useProductForm } from "../../../context/ProductContext";
 
 export default function PricingAvailabilitySection({ availabilityOptions }) {
   const { form, updateField, setAvailability } = useProductForm();

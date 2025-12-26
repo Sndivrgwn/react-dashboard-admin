@@ -16,7 +16,7 @@ const ecommerceItems = [
   { label: "Products", to: "/ecommerce/products" },
   { label: "Brands", to: "/ecommerce/brands" },
   { label: "Categories", to: "/ecommerce/categories" },
-  { label: "Add Products", to: "/ecommerce/add-product" },
+  { label: "Add Products", to: "/ecommerce/product/add" },
   { label: "Billing", to: "/ecommerce/billing" },
   { label: "Invoice", to: "/ecommerce/invoice" },
   { label: "Single Invoice", to: "/ecommerce/invoice/single" },

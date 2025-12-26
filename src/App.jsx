@@ -16,6 +16,8 @@ import ProductsPage from "./components/ecommerce/products/ProductsPage";
 import AddProductPage from "./components/ecommerce/products/AddProductPage";
 import BrandsPage from "./components/ecommerce/brands/BrandsPage";
 import CategoriesPage from "./components/ecommerce/categories/CategoriesPage";
+import AddBrandPage from "./components/ecommerce/brands/AddBrandPage";
+import AddCategoryPage from "./components/ecommerce/categories/AddCategoryPage";
 import { ProductsProvider } from "./context/ProductsContext";
 import { CatalogProvider } from "./context/CatalogContext";
 
@@ -66,7 +68,12 @@ function App() {
               <Route path="/ecommerce/products" element={<ProductsPage />} />
               <Route path="/ecommerce/brands" element={<BrandsPage />} />
               <Route path="/ecommerce/categories" element={<CategoriesPage />} />
-              <Route path="/ecommerce/add-product" element={<AddProductPage />} />
+              <Route path="/ecommerce/brands/add" element={<AddBrandPage />} />
+              <Route
+                path="/ecommerce/categories/add"
+                element={<AddCategoryPage />}
+              />
+              <Route path="/ecommerce/product/add" element={<AddProductPage />} />
               <Route
                 path="/ecommerce/billing"
                 element={<PlaceholderPage title="Billing" />}

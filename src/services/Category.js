@@ -5,3 +5,9 @@ export const fetchCategory = async () => {
 
     return res.data
 }
+
+export const createCategory = async (payload) => {
+    const res = await api.post("/category", payload)
+
+    return res.data
+}

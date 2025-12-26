@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import Icon from "../../../template/Icon";
-import { useProductForm } from "../../../../context/ProductContext";
+import Icon from "../../template/Icon";
+import { useProductForm } from "../../../context/ProductContext";
 
 export default function ProductImagesCard() {
   const { image, setImage } = useProductForm();

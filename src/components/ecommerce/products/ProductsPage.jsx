@@ -1,9 +1,11 @@
 import { useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
 import Icon from "../../template/Icon";
 import DataTableCard from "../../tables/data/DataTableCard";
 import ErrorBanner from "../../error/banner/ErrorBanner";
 import { useProducts } from "../../../context/ProductsContext";
+import AddButton from "../sections/AddButton";
+import FilterButton from "../sections/FilterButton";
+import ExportButton from "../sections/ExportButton";
 
 const statusStyles = {
   "in stock": "bg-emerald-500/15 text-emerald-300",
@@ -93,27 +95,9 @@ export default function ProductsPage() {
           <h1 className="text-2xl font-semibold">Products</h1>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm text-white/70 transition hover:border-white/20 hover:text-white"
-          >
-            <Icon name="filter" className="h-4 w-4" />
-            Filter
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm text-white/70 transition hover:border-white/20 hover:text-white"
-          >
-            <Icon name="download" className="h-4 w-4" />
-            Export
-          </button>
-          <Link
-            to="/ecommerce/add-product"
-            className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-white/90"
-          >
-            <Icon name="plus" className="h-4 w-4" />
-            Add product
-          </Link>
+          <FilterButton/>
+          <ExportButton/>
+          <AddButton title="Add Product" to="/ecommerce/product/add"/>
         </div>
       </div>
 

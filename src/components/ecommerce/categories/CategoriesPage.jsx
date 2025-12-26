@@ -3,6 +3,7 @@ import Icon from "../../template/Icon";
 import ErrorBanner from "../../error/banner/ErrorBanner";
 import { useCatalog } from "../../../context/CatalogContext";
 import DataTableCard from "../../tables/data/DataTableCard";
+import AddButton from "../sections/AddButton";
 
 export default function CategoriesPage() {
   const { categories, isLoading, errorMessage, loadCatalog } = useCatalog();
@@ -32,6 +33,9 @@ export default function CategoriesPage() {
         <div>
           <p className="text-sm text-white/50">E-commerce</p>
           <h1 className="text-2xl font-semibold">Categories</h1>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <AddButton title="Add Category" to="/ecommerce/categories/add" />
         </div>
       </div>
 

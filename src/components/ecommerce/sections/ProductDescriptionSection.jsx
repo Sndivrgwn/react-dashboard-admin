@@ -1,5 +1,5 @@
-import Combobox from "../../../template/Combobox";
-import { useProductForm } from "../../../../context/ProductContext";
+import Combobox from "../../template/Combobox";
+import { useProductForm } from "../../../context/ProductContext";
 
 export default function ProductDescriptionSection({
   categories,

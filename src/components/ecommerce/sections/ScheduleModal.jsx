@@ -1,5 +1,5 @@
-import Modal from "../../../template/Modal";
-import { useProductForm } from "../../../../context/ProductContext";
+import Modal from "../../template/Modal";
+import { useProductForm } from "../../../context/ProductContext";
 
 export default function ScheduleModal({ isOpen, onClose }) {
   const {

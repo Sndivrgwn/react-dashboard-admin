@@ -1,10 +1,10 @@
 import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import ProductDescriptionSection from "./sections/ProductDescriptionSection";
-import PricingAvailabilitySection from "./sections/PricingAvailabilitySection";
-import ProductImagesCard from "./sections/ProductImagesCard";
-import PublishingCard from "./sections/PublishingCard";
-import ScheduleModal from "./sections/ScheduleModal";
+import ProductDescriptionSection from "../sections/ProductDescriptionSection";
+import PricingAvailabilitySection from "../sections/PricingAvailabilitySection";
+import ProductImagesCard from "../sections/ProductImagesCard";
+import PublishingCard from "../sections/PublishingCard";
+import ScheduleModal from "../sections/ScheduleModal";
 import colorData from "../../../dataset/color/color.json";
 import ErrorBanner from "../../error/banner/ErrorBanner";
 import SuccessBanner from "../../error/banner/SuccessBanner";
