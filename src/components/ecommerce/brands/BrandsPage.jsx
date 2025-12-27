@@ -4,10 +4,13 @@ import ErrorBanner from "../../error/banner/ErrorBanner";
 import { useCatalog } from "../../../context/CatalogContext";
 import DataTableCard from "../../tables/data/DataTableCard";
 import AddButton from "../sections/AddButton";
+import SlideOver from "../../template/SlideOver";
 
 export default function BrandsPage() {
   const { brands, isLoading, errorMessage, loadCatalog } = useCatalog();
   const [currentPage, setCurrentPage] = useState(1);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [selectedBrand, setSelectedBrand] = useState(null);
   const pageSize = 5;
 
   useEffect(() => {
@@ -126,6 +129,10 @@ export default function BrandsPage() {
                     <td className="px-6 py-4 text-right">
                       <button
                         type="button"
+                        onClick={() => {
+                          setSelectedBrand(brand);
+                          setIsDetailOpen(true);
+                        }}
                         className="inline-flex items-center justify-center rounded-lg border border-white/10 p-2 text-white/60 transition hover:border-white/20 hover:text-white"
                         aria-label="View brand"
                       >
@@ -148,6 +155,26 @@ export default function BrandsPage() {
           </table>
         </div>
       </DataTableCard>
+      <SlideOver
+        isOpen={isDetailOpen}
+        title="Brand details"
+        onClose={() => setIsDetailOpen(false)}
+      >
+        {selectedBrand ? (
+          <div className="space-y-4 text-sm text-white/70">
+            <div>
+              <p className="text-xs uppercase text-white/40">Name</p>
+              <p className="text-base font-semibold text-white">
+                {selectedBrand.label}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs uppercase text-white/40">ID</p>
+              <p className="text-sm text-white/80">{selectedBrand.value}</p>
+            </div>
+          </div>
+        ) : null}
+      </SlideOver>
     </div>
   );
 }

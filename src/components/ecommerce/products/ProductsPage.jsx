@@ -1,7 +1,8 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Icon from "../../template/Icon";
 import DataTableCard from "../../tables/data/DataTableCard";
 import ErrorBanner from "../../error/banner/ErrorBanner";
+import SlideOver from "../../template/SlideOver";
 import { useProducts } from "../../../context/ProductsContext";
 import AddButton from "../sections/AddButton";
 import FilterButton from "../sections/FilterButton";
@@ -31,6 +32,8 @@ const formatCurrency = (value) => {
 
 export default function ProductsPage() {
   const { products, isLoading, errorMessage, loadProducts } = useProducts();
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     loadProducts();
@@ -66,6 +69,8 @@ export default function ProductsPage() {
         id: product.id || product.SKU || product.sku || product.name,
         name: product.name || "-",
         sku: product.SKU || product.sku || "-",
+        brand:
+          product.brand?.name || product.brand_name || product.brand || "-",
         category:
           product.category?.name ||
           product.category_name ||
@@ -73,6 +78,7 @@ export default function ProductsPage() {
           "-",
         price: formatCurrency(product.price),
         stock: product.stock_quantity ?? product.stock ?? "-",
+        description: product.description || "-",
         availabilityKey,
         imageSrc,
         initials,
@@ -212,6 +218,10 @@ export default function ProductsPage() {
                     <td className="px-6 py-4 text-right">
                       <button
                         type="button"
+                        onClick={() => {
+                          setSelectedProduct(product);
+                          setIsDetailOpen(true);
+                        }}
                         className="inline-flex items-center justify-center rounded-lg border border-white/10 p-2 text-white/60 transition hover:border-white/20 hover:text-white"
                         aria-label="View product"
                       >
@@ -234,6 +244,81 @@ export default function ProductsPage() {
           </table>
         </div>
       </DataTableCard>
+      <SlideOver
+        isOpen={isDetailOpen}
+        title="Product details"
+        onClose={() => setIsDetailOpen(false)}
+      >
+        {selectedProduct ? (
+          <div className="space-y-6 text-sm text-white/70">
+            <div className="flex items-center gap-4">
+              {selectedProduct.imageSrc ? (
+                <img
+                  src={selectedProduct.imageSrc}
+                  alt={selectedProduct.name}
+                  className="h-14 w-14 rounded-2xl object-cover"
+                />
+              ) : (
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-base font-semibold text-white">
+                  {selectedProduct.initials || "--"}
+                </div>
+              )}
+              <div>
+                <p className="text-lg font-semibold text-white">
+                  {selectedProduct.name}
+                </p>
+                <p className="text-white/50">SKU: {selectedProduct.sku}</p>
+              </div>
+            </div>
+
+            <div className="grid gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 sm:grid-cols-2">
+              <div>
+                <p className="text-xs uppercase text-white/40">Price</p>
+                <p className="text-sm font-semibold text-white">
+                  {selectedProduct.price}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs uppercase text-white/40">Stock</p>
+                <p className="text-sm font-semibold text-white">
+                  {selectedProduct.stock}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs uppercase text-white/40">Status</p>
+                <span
+                  className={[
+                    "mt-1 inline-flex whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold",
+                    statusStyles[selectedProduct.availabilityKey] ||
+                      "bg-white/10 text-white/60",
+                  ].join(" ")}
+                >
+                  {selectedProduct.availabilityLabel}
+                </span>
+              </div>
+              <div>
+                <p className="text-xs uppercase text-white/40">Category</p>
+                <p className="text-sm font-semibold text-white">
+                  {selectedProduct.category}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs uppercase text-white/40">Brand</p>
+                <p className="text-sm font-semibold text-white">
+                  {selectedProduct.brand}
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs uppercase text-white/40">Description</p>
+              <p className="mt-2 text-white/70">
+                {selectedProduct.description || "-"}
+              </p>
+            </div>
+          </div>
+        ) : null}
+      </SlideOver>
     </div>
   );
 }
