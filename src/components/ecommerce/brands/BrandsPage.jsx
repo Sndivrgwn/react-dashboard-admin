@@ -5,12 +5,18 @@ import { useCatalog } from "../../../context/CatalogContext";
 import DataTableCard from "../../tables/data/DataTableCard";
 import AddButton from "../sections/AddButton";
 import SlideOver from "../../template/SlideOver";
+import { useDetailStore } from "../../../store/detailStore";
 
 export default function BrandsPage() {
   const { brands, isLoading, errorMessage, loadCatalog } = useCatalog();
   const [currentPage, setCurrentPage] = useState(1);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState(null);
+  const brandDetail = useDetailStore((state) => state.brandDetail);
+  const brandLoading = useDetailStore((state) => state.brandLoading);
+  const brandError = useDetailStore((state) => state.brandError);
+  const fetchBrandDetail = useDetailStore((state) => state.fetchBrandDetail);
+  const clearBrandDetail = useDetailStore((state) => state.clearBrandDetail);
   const pageSize = 5;
 
   useEffect(() => {
@@ -132,6 +138,7 @@ export default function BrandsPage() {
                         onClick={() => {
                           setSelectedBrand(brand);
                           setIsDetailOpen(true);
+                          fetchBrandDetail(brand.value);
                         }}
                         className="inline-flex items-center justify-center rounded-lg border border-white/10 p-2 text-white/60 transition hover:border-white/20 hover:text-white"
                         aria-label="View brand"
@@ -158,19 +165,34 @@ export default function BrandsPage() {
       <SlideOver
         isOpen={isDetailOpen}
         title="Brand details"
-        onClose={() => setIsDetailOpen(false)}
+        onClose={() => {
+          setIsDetailOpen(false);
+          setSelectedBrand(null);
+          clearBrandDetail();
+        }}
       >
-        {selectedBrand ? (
+        {brandError ? <ErrorBanner message={brandError} /> : null}
+        {brandLoading ? (
+          <div className="text-sm text-white/60">Loading details...</div>
+        ) : brandDetail || selectedBrand ? (
           <div className="space-y-4 text-sm text-white/70">
             <div>
               <p className="text-xs uppercase text-white/40">Name</p>
               <p className="text-base font-semibold text-white">
-                {selectedBrand.label}
+                {brandDetail?.name || selectedBrand?.label || "-"}
               </p>
             </div>
             <div>
               <p className="text-xs uppercase text-white/40">ID</p>
-              <p className="text-sm text-white/80">{selectedBrand.value}</p>
+              <p className="text-sm text-white/80">
+                {brandDetail?.id || selectedBrand?.value || "-"}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs uppercase text-white/40">Description</p>
+              <p className="text-sm text-white/80">
+                {brandDetail?.description || "-"}
+              </p>
             </div>
           </div>
         ) : null}

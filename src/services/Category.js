@@ -11,3 +11,9 @@ export const createCategory = async (payload) => {
 
     return res.data
 }
+
+export const fetchCategoryById = async (id) => {
+    const res = await api.get(`/category/${id}`)
+
+    return res.data
+}

@@ -11,3 +11,9 @@ export const createBrand = async (payload) => {
 
     return res.data;
 }
+
+export const fetchBrandById = async (id) => {
+    const res = await api.get(`/brand/${id}`);
+
+    return res.data;
+}

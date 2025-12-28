@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 export default function SlideOver({
@@ -9,6 +9,8 @@ export default function SlideOver({
   widthClass = "max-w-lg",
 }) {
   if (!isOpen) return null;
+
+  const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
@@ -27,7 +29,7 @@ export default function SlideOver({
     >
       <div
         className={[
-          "h-full w-full",
+          "flex h-full w-full flex-col",
           widthClass,
           "border-l border-white/10 bg-slate-900/95 text-white shadow-2xl shadow-black/40 backdrop-blur",
         ]
@@ -35,7 +37,14 @@ export default function SlideOver({
           .trim()}
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
+        <div
+          className={[
+            "sticky top-0 z-10 flex items-center justify-between px-6 py-5",
+            hasScrolled ? "border-b border-white/10 bg-slate-900/95" : "",
+          ]
+            .join(" ")
+            .trim()}
+        >
           <h3 className="text-lg font-semibold">{title}</h3>
           <button
             type="button"
@@ -45,7 +54,12 @@ export default function SlideOver({
             Close
           </button>
         </div>
-        <div className="h-[calc(100vh-76px)] overflow-y-auto px-6 py-5">
+        <div
+          className="h-full overflow-y-auto px-6 py-5"
+          onScroll={(event) => {
+            setHasScrolled(event.currentTarget.scrollTop > 4);
+          }}
+        >
           {children}
         </div>
       </div>

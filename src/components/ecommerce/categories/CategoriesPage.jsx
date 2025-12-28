@@ -5,12 +5,22 @@ import { useCatalog } from "../../../context/CatalogContext";
 import DataTableCard from "../../tables/data/DataTableCard";
 import AddButton from "../sections/AddButton";
 import SlideOver from "../../template/SlideOver";
+import { useDetailStore } from "../../../store/detailStore";
 
 export default function CategoriesPage() {
   const { categories, isLoading, errorMessage, loadCatalog } = useCatalog();
   const [currentPage, setCurrentPage] = useState(1);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const categoryDetail = useDetailStore((state) => state.categoryDetail);
+  const categoryLoading = useDetailStore((state) => state.categoryLoading);
+  const categoryError = useDetailStore((state) => state.categoryError);
+  const fetchCategoryDetail = useDetailStore(
+    (state) => state.fetchCategoryDetail
+  );
+  const clearCategoryDetail = useDetailStore(
+    (state) => state.clearCategoryDetail
+  );
   const pageSize = 5;
 
   useEffect(() => {
@@ -132,6 +142,7 @@ export default function CategoriesPage() {
                         onClick={() => {
                           setSelectedCategory(category);
                           setIsDetailOpen(true);
+                          fetchCategoryDetail(category.value);
                         }}
                         className="inline-flex items-center justify-center rounded-lg border border-white/10 p-2 text-white/60 transition hover:border-white/20 hover:text-white"
                         aria-label="View category"
@@ -158,19 +169,34 @@ export default function CategoriesPage() {
       <SlideOver
         isOpen={isDetailOpen}
         title="Category details"
-        onClose={() => setIsDetailOpen(false)}
+        onClose={() => {
+          setIsDetailOpen(false);
+          setSelectedCategory(null);
+          clearCategoryDetail();
+        }}
       >
-        {selectedCategory ? (
+        {categoryError ? <ErrorBanner message={categoryError} /> : null}
+        {categoryLoading ? (
+          <div className="text-sm text-white/60">Loading details...</div>
+        ) : categoryDetail || selectedCategory ? (
           <div className="space-y-4 text-sm text-white/70">
             <div>
               <p className="text-xs uppercase text-white/40">Name</p>
               <p className="text-base font-semibold text-white">
-                {selectedCategory.label}
+                {categoryDetail?.name || selectedCategory?.label || "-"}
               </p>
             </div>
             <div>
               <p className="text-xs uppercase text-white/40">ID</p>
-              <p className="text-sm text-white/80">{selectedCategory.value}</p>
+              <p className="text-sm text-white/80">
+                {categoryDetail?.id || selectedCategory?.value || "-"}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs uppercase text-white/40">Description</p>
+              <p className="text-sm text-white/80">
+                {categoryDetail?.description || "-"}
+              </p>
             </div>
           </div>
         ) : null}
