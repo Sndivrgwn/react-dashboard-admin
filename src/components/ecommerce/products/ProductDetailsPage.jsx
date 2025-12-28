@@ -86,6 +86,7 @@ export default function ProductDetailsPage() {
   const [showDescription, setShowDescription] = useState(false);
   const [copiedSku, setCopiedSku] = useState(false);
   const [isImageOpen, setIsImageOpen] = useState(false);
+  const [activeImage, setActiveImage] = useState("");
   const productDetail = useDetailStore((state) => state.productDetail);
   const productLoading = useDetailStore((state) => state.productLoading);
   const productError = useDetailStore((state) => state.productError);
@@ -104,6 +105,11 @@ export default function ProductDetailsPage() {
 
   const product = useMemo(() => {
     if (!productDetail) return null;
+    const detailImages = (productDetail.product_images || [])
+      .map((image) =>
+        resolveImage(typeof image === "string" ? image : image?.path)
+      )
+      .filter(Boolean);
     const lengthValue = productDetail.length_cm ?? productDetail.lengthCm;
     const widthValue = productDetail.width_cm ?? productDetail.widthCm;
     const heightValue = productDetail.height_cm ?? productDetail.heightCm;
@@ -119,7 +125,10 @@ export default function ProductDetailsPage() {
       visibility: productDetail.visibility,
       category: productDetail.category?.name || productDetail.category_name,
       brand: productDetail.brand?.name || productDetail.brand_name,
-      images: [resolveImage(productDetail.image)].filter(Boolean),
+      images:
+        detailImages.length > 0
+          ? detailImages
+          : [resolveImage(productDetail.image)].filter(Boolean),
       description: productDetail.description,
       weightKg: productDetail.weight_kg ?? productDetail.weightKg,
       lengthCm: lengthValue,
@@ -130,6 +139,10 @@ export default function ProductDetailsPage() {
       scheduledAt: productDetail.scheduled_at ?? productDetail.scheduledAt,
     };
   }, [productDetail]);
+
+  useEffect(() => {
+    setActiveImage(product?.images?.[0] || "");
+  }, [product?.images]);
 
   const stockQuantity = Number(product?.stockQuantity ?? 0);
   const stockVariant =
@@ -285,7 +298,10 @@ export default function ProductDetailsPage() {
             {product.images.length ? (
               <button
                 type="button"
-                onClick={() => setIsImageOpen(true)}
+                onClick={() => {
+                  setActiveImage(product.images[0]);
+                  setIsImageOpen(true);
+                }}
                 className="group relative h-72 w-full overflow-hidden"
                 aria-label="View full image"
               >
@@ -367,6 +383,34 @@ export default function ProductDetailsPage() {
                 </div>
               </Section>
             </div>
+          ) : activeTab === "media" ? (
+            <Section title="Media">
+              {product.images.length ? (
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {product.images.map((image, index) => (
+                    <button
+                      key={`${image}-${index}`}
+                      type="button"
+                      onClick={() => {
+                        setActiveImage(image);
+                        setIsImageOpen(true);
+                      }}
+                      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+                      aria-label={`View product image ${index + 1}`}
+                    >
+                      <img
+                        src={image}
+                        alt={`${product.name} ${index + 1}`}
+                        className="h-40 w-full object-cover transition duration-200 group-hover:scale-105"
+                      />
+                      <span className="absolute inset-0 bg-black/0 transition group-hover:bg-black/20" />
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-white/50">No images uploaded.</p>
+              )}
+            </Section>
           ) : (
             <Section title="Coming soon">
               <p className="text-sm text-white/50">
@@ -449,7 +493,7 @@ export default function ProductDetailsPage() {
       </div>
       <ImageLightbox
         isOpen={isImageOpen}
-        src={product.images[0]}
+        src={activeImage || product.images[0]}
         alt={product.name}
         onClose={() => setIsImageOpen(false)}
       />

@@ -132,7 +132,11 @@ export default function ProductEditPage() {
 
   useEffect(() => {
     if (!productDetail) return;
-    setImagePreview(resolveImage(productDetail.image));
+    const detailImage =
+      productDetail.product_images?.[0]?.path ||
+      productDetail.product_images?.[0] ||
+      productDetail.image;
+    setImagePreview(resolveImage(detailImage));
     setImageFile(null);
     setTouched({});
     const nextDraft = {

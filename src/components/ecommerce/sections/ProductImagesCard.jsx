@@ -3,19 +3,24 @@ import Icon from "../../template/Icon";
 import { useProductForm } from "../../../context/ProductContext";
 
 export default function ProductImagesCard() {
-  const { image, setImage } = useProductForm();
+  const { images, setImages } = useProductForm();
   const fileInputRef = useRef(null);
-  const [previewUrl, setPreviewUrl] = useState("");
+  const [previewUrls, setPreviewUrls] = useState([]);
 
   useEffect(() => {
-    if (!image) {
-      setPreviewUrl("");
+    if (!images.length) {
+      setPreviewUrls([]);
       return;
     }
-    const url = URL.createObjectURL(image);
-    setPreviewUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [image]);
+    const urls = images.map((file) => URL.createObjectURL(file));
+    setPreviewUrls(urls);
+    return () => urls.forEach((url) => URL.revokeObjectURL(url));
+  }, [images]);
+
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files || []).slice(0, 3);
+    setImages(files);
+  };
 
   return (
     <div className="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-lg shadow-black/20 backdrop-blur">
@@ -31,20 +36,28 @@ export default function ProductImagesCard() {
           type="file"
           accept="image/*"
           className="hidden"
-          onChange={(event) => setImage(event.target.files?.[0] || null)}
+          multiple
+          onChange={handleFileChange}
         />
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
           className="w-full"
         >
-          {previewUrl ? (
-            <div className="overflow-hidden rounded-2xl border border-white/10">
-              <img
-                src={previewUrl}
-                alt="Product preview"
-                className="h-40 w-full object-cover"
-              />
+          {previewUrls.length ? (
+            <div className="grid gap-3 sm:grid-cols-3">
+              {previewUrls.map((url, index) => (
+                <div
+                  key={url}
+                  className="overflow-hidden rounded-2xl border border-white/10"
+                >
+                  <img
+                    src={url}
+                    alt={`Product preview ${index + 1}`}
+                    className="h-28 w-full object-cover"
+                  />
+                </div>
+              ))}
             </div>
           ) : (
             <>
@@ -65,7 +78,7 @@ export default function ProductImagesCard() {
           onClick={() => fileInputRef.current?.click()}
           className="mt-4 rounded-xl border border-white/10 px-4 py-2 text-xs text-white/70 transition hover:border-white/20 hover:text-white"
         >
-          {image ? "Change image" : "Choose image"}
+          {images.length ? "Change images" : "Choose images"}
         </button>
       </div>
     </div>

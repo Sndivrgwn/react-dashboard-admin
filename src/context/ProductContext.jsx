@@ -47,7 +47,7 @@ const generateSku = (nameValue, colorValue) => {
 
 export function ProductProvider({ children }) {
   const [form, setForm] = useState(initialForm);
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
   const [scheduleOption, setScheduleOption] = useState("Immediately");
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
@@ -134,8 +134,8 @@ export function ProductProvider({ children }) {
       if (status === "scheduled") {
         payload.append("scheduled_at", form.scheduled_at);
       }
-      if (image) {
-        payload.append("image", image);
+      if (images.length) {
+        images.forEach((file) => payload.append("images[]", file));
       }
 
       await createProduct(payload);
@@ -157,7 +157,7 @@ export function ProductProvider({ children }) {
   const value = useMemo(
     () => ({
       form,
-      image,
+      images,
       scheduleOption,
       scheduleDate,
       scheduleTime,
@@ -166,7 +166,7 @@ export function ProductProvider({ children }) {
       errorMessage,
       successMessage,
       updateField,
-      setImage,
+      setImages,
       setVisibility,
       setChannel,
       setAvailability,
@@ -179,7 +179,7 @@ export function ProductProvider({ children }) {
     }),
     [
       form,
-      image,
+      images,
       scheduleOption,
       scheduleDate,
       scheduleTime,

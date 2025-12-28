@@ -48,6 +48,8 @@ export default function ProductsPage() {
         .replace(/_/g, " ")
         .toLowerCase();
       const rawImage =
+        product.product_images?.[0]?.path ||
+        product.product_images?.[0] ||
         product.image_url ||
         product.image ||
         product.thumbnail ||

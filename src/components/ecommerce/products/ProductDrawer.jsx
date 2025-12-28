@@ -125,6 +125,7 @@ export default function ProductDrawer({ isOpen, onClose, product }) {
   const [copiedSku, setCopiedSku] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isImageOpen, setIsImageOpen] = useState(false);
+  const [activeImage, setActiveImage] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [draft, setDraft] = useState(null);
   const [formErrors, setFormErrors] = useState({});
@@ -158,13 +159,23 @@ export default function ProductDrawer({ isOpen, onClose, product }) {
   }, [isOpen, productId]);
 
   const detail = productDetail || product;
-  const detailImage = resolveImage(
-    detail?.image_url ||
-      detail?.image ||
-      detail?.thumbnail ||
-      detail?.photo ||
-      ""
-  );
+  const detailImages = useMemo(() => {
+    const images = (detail?.product_images || [])
+      .map((image) =>
+        resolveImage(typeof image === "string" ? image : image?.path)
+      )
+      .filter(Boolean);
+    if (images.length) return images;
+    const fallback = resolveImage(
+      detail?.image_url ||
+        detail?.image ||
+        detail?.thumbnail ||
+        detail?.photo ||
+        ""
+    );
+    return fallback ? [fallback] : [];
+  }, [detail]);
+  const detailImage = detailImages[0] || "";
   const stockQuantity = Number(detail?.stock_quantity ?? detail?.stock ?? 0);
   const stockVariant =
     stockQuantity <= 0 ? "out_of_stock" : stockQuantity <= 5 ? "low_stock" : "in_stock";
@@ -371,20 +382,23 @@ export default function ProductDrawer({ isOpen, onClose, product }) {
                   )}
                 </div>
                 <div className="mt-3 grid grid-cols-3 gap-3">
-                  {Array.from({ length: 3 }).map((_, index) => (
+                  {(detailImages.length ? detailImages.slice(0, 3) : [null, null, null]).map((image, index) => (
                     <div
                       key={`thumb-${index}`}
                       className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
                     >
-                      {detailImage ? (
+                      {image ? (
                         <button
                           type="button"
-                          onClick={() => setIsImageOpen(true)}
+                          onClick={() => {
+                            setActiveImage(image);
+                            setIsImageOpen(true);
+                          }}
                           className="group relative h-16 w-full overflow-hidden"
                           aria-label={`View ${detail.name} thumbnail`}
                         >
                           <img
-                            src={detailImage}
+                            src={image}
                             alt={`${detail.name} thumbnail ${index + 1}`}
                             className="h-full w-full object-cover transition duration-200 group-hover:scale-105"
                           />
@@ -769,7 +783,7 @@ export default function ProductDrawer({ isOpen, onClose, product }) {
       />
       <ImageLightbox
         isOpen={isImageOpen}
-        src={detailImage}
+        src={activeImage || detailImage}
         alt={detail?.name}
         onClose={() => setIsImageOpen(false)}
       />
