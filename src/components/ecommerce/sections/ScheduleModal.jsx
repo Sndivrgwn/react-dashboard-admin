@@ -22,7 +22,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
             onChange={(event) =>
               setScheduleDateTime(event.target.value, scheduleTime)
             }
-            className="h-11 w-full rounded-xl border border-white/10 bg-white/5 px-4 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
+            className="h-10 w-full rounded-xl border border-white/10 bg-slate-950/60 px-3 text-sm text-white outline-none transition focus:border-white/30 focus:ring-2 focus:ring-white/20"
           />
         </div>
         <div className="space-y-2">
@@ -36,7 +36,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
             onChange={(event) =>
               setScheduleDateTime(scheduleDate, event.target.value)
             }
-            className="h-11 w-full rounded-xl border border-white/10 bg-white/5 px-4 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
+            className="h-10 w-full rounded-xl border border-white/10 bg-slate-950/60 px-3 text-sm text-white outline-none transition focus:border-white/30 focus:ring-2 focus:ring-white/20"
           />
         </div>
         <div className="flex justify-end gap-2">

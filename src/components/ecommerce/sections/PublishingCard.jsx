@@ -61,7 +61,7 @@ export default function PublishingCard({ onOpenSchedule }) {
                   onOpenSchedule();
                 }
               }}
-              className="h-11 w-full appearance-none rounded-xl border border-white/10 bg-slate-950/60 px-4 pr-10 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
+              className="h-10 w-full appearance-none rounded-xl border border-white/10 bg-slate-950/60 px-3 pr-10 text-sm text-white outline-none transition focus:border-white/30 focus:ring-2 focus:ring-white/20"
             >
               <option value="Immediately">Immediately</option>
               <option value="Schedule">Schedule</option>
@@ -87,7 +87,7 @@ export default function PublishingCard({ onOpenSchedule }) {
               id="channel"
               value={form.channel}
               onChange={(event) => setChannel(event.target.value)}
-              className="h-11 w-full appearance-none rounded-xl border border-white/10 bg-slate-950/60 px-4 pr-10 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
+              className="h-10 w-full appearance-none rounded-xl border border-white/10 bg-slate-950/60 px-3 pr-10 text-sm text-white outline-none transition focus:border-white/30 focus:ring-2 focus:ring-white/20"
             >
               <option value="online">Online</option>
               <option value="offline">Offline</option>

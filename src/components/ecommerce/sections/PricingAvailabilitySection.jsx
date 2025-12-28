@@ -20,14 +20,14 @@ export default function PricingAvailabilitySection({ availabilityOptions }) {
             placeholder="$0.00"
             value={form.price}
             onChange={(event) => updateField("price", event.target.value)}
-            className="h-11 w-full rounded-xl border border-white/10 bg-white/5 px-4 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
+            className="h-10 w-full rounded-xl border border-white/10 bg-slate-950/60 px-3 text-sm text-white outline-none transition focus:border-white/30 focus:ring-2 focus:ring-white/20"
           />
         </div>
         <div className="space-y-2">
           <label className="text-sm text-white/70" htmlFor="stockQuantity">
             Stock Quantity
           </label>
-          <div className="flex h-11 items-center rounded-xl border border-white/10 bg-white/5 px-2">
+          <div className="flex h-10 items-center rounded-xl border border-white/10 bg-slate-950/60 px-2">
             <button
               type="button"
               className="h-8 w-8 rounded-lg border border-white/10 text-white/60 transition hover:border-white/20 hover:text-white"
@@ -42,7 +42,7 @@ export default function PricingAvailabilitySection({ availabilityOptions }) {
               onChange={(event) =>
                 updateField("stock_quantity", event.target.value)
               }
-              className="mx-2 flex-1 bg-transparent text-center text-white/80 outline-none"
+              className="mx-2 flex-1 bg-transparent text-center text-sm text-white/80 outline-none"
             />
             <button
               type="button"
@@ -63,7 +63,7 @@ export default function PricingAvailabilitySection({ availabilityOptions }) {
             id="availability"
             value={form.availability_status}
             onChange={(event) => setAvailability(event.target.value)}
-            className="h-11 w-full appearance-none rounded-xl border border-white/10 bg-slate-950/60 px-4 pr-10 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
+            className="h-10 w-full appearance-none rounded-xl border border-white/10 bg-slate-950/60 px-3 pr-10 text-sm text-white outline-none transition focus:border-white/30 focus:ring-2 focus:ring-white/20"
           >
             <option value="">Select Availability</option>
             {availabilityOptions.map((option) => (

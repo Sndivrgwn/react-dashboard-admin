@@ -66,10 +66,10 @@ export default function Sidebar({ isOpen = true }) {
     >
       <div className="flex items-center gap-3 px-2">
         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-slate-900">
-          <span className="text-sm font-semibold">TA</span>
+          <span className="text-sm font-semibold">SA</span>
         </div>
         <div>
-          <p className="text-base font-semibold text-white">TailAdmin</p>
+          <p className="text-base font-semibold text-white">SandiAdmin</p>
           <p className="text-xs text-white/50">Workspace</p>
         </div>
       </div>
@@ -231,7 +231,7 @@ export default function Sidebar({ isOpen = true }) {
 
       <div className="mt-auto rounded-2xl border border-white/10 bg-white/5 p-4 text-xs text-white/60">
         <p className="font-semibold text-white/80">Need help?</p>
-        <p className="mt-1">support@tailadmin.dev</p>
+        <p className="mt-1">support@SandiAdmin.dev</p>
       </div>
     </aside>
   );

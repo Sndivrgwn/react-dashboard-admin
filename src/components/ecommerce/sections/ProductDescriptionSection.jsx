@@ -24,7 +24,7 @@ export default function ProductDescriptionSection({
             placeholder="Enter product name"
             value={form.name}
             onChange={(event) => updateField("name", event.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
+            className="h-10 w-full rounded-xl border border-white/10 bg-slate-950/60 px-3 text-sm text-white outline-none transition focus:border-white/30 focus:ring-2 focus:ring-white/20"
           />
         </div>
         <Combobox
@@ -65,7 +65,7 @@ export default function ProductDescriptionSection({
             placeholder="15"
             value={form.weight_kg}
             onChange={(event) => updateField("weight_kg", event.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
+            className="h-10 w-full rounded-xl border border-white/10 bg-slate-950/60 px-3 text-sm text-white outline-none transition focus:border-white/30 focus:ring-2 focus:ring-white/20"
           />
         </div>
         <div className="space-y-2">
@@ -78,7 +78,7 @@ export default function ProductDescriptionSection({
             placeholder="120"
             value={form.length_cm}
             onChange={(event) => updateField("length_cm", event.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
+            className="h-10 w-full rounded-xl border border-white/10 bg-slate-950/60 px-3 text-sm text-white outline-none transition focus:border-white/30 focus:ring-2 focus:ring-white/20"
           />
         </div>
         <div className="space-y-2">
@@ -91,7 +91,7 @@ export default function ProductDescriptionSection({
             placeholder="23"
             value={form.width_cm}
             onChange={(event) => updateField("width_cm", event.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
+            className="h-10 w-full rounded-xl border border-white/10 bg-slate-950/60 px-3 text-sm text-white outline-none transition focus:border-white/30 focus:ring-2 focus:ring-white/20"
           />
         </div>
       </div>
@@ -106,7 +106,7 @@ export default function ProductDescriptionSection({
           placeholder="Receipt info (optional)"
           value={form.description}
           onChange={(event) => updateField("description", event.target.value)}
-          className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition focus:border-white/20 focus:ring-4 focus:ring-white/10"
+          className="w-full resize-none rounded-xl border border-white/10 bg-slate-950/60 px-3 py-2 text-sm text-white outline-none transition focus:border-white/30 focus:ring-2 focus:ring-white/20"
         />
       </div>
     </div>
