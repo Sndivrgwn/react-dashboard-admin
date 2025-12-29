@@ -135,7 +135,7 @@ export function ProductProvider({ children }) {
         payload.append("scheduled_at", form.scheduled_at);
       }
       if (images.length) {
-        images.forEach((file) => payload.append("images[]", file));
+        images.slice(0, 5).forEach((file) => payload.append("images[]", file));
       }
 
       await createProduct(payload);

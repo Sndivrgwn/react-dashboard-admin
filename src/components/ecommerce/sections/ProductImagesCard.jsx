@@ -18,7 +18,7 @@ export default function ProductImagesCard() {
   }, [images]);
 
   const handleFileChange = (event) => {
-    const files = Array.from(event.target.files || []).slice(0, 3);
+    const files = Array.from(event.target.files || []).slice(0, 5);
     setImages(files);
   };
 
@@ -27,7 +27,7 @@ export default function ProductImagesCard() {
       <div className="flex items-center justify-between">
         <h2 className="text-base font-semibold text-white">Products Images</h2>
         <span className="rounded-full border border-white/10 px-2 py-1 text-xs text-white/50">
-          3 max
+          5 max
         </span>
       </div>
       <div className="mt-6 rounded-2xl border border-dashed border-white/20 bg-white/5 p-6 text-center text-sm text-white/60">
@@ -45,7 +45,7 @@ export default function ProductImagesCard() {
           className="w-full"
         >
           {previewUrls.length ? (
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
               {previewUrls.map((url, index) => (
                 <div
                   key={url}

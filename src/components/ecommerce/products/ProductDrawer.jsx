@@ -360,18 +360,23 @@ export default function ProductDrawer({ isOpen, onClose, product }) {
           <div className="space-y-6 text-sm text-white/70">
             <div className="grid gap-6 lg:grid-cols-[1.05fr_1fr]">
               <div>
-                <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+                <div className="overflow-hidden rounded-2xl bg-transparent">
                   {detailImage ? (
                     <button
                       type="button"
-                      onClick={() => setIsImageOpen(true)}
-                      className="group relative h-56 w-full overflow-hidden"
+                      onClick={() => {
+                        setActiveImage(detailImage);
+                        setIsImageOpen(true);
+                      }}
+                      className="group relative h-56 w-full overflow-hidden rounded-2xl"
                       aria-label="View full image"
                     >
                       <img
                         src={detailImage}
                         alt={detail.name}
-                        className="h-full w-full object-cover transition duration-200 group-hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full rounded-2xl object-cover transition duration-200 group-hover:scale-105"
                       />
                       <span className="absolute inset-0 bg-black/0 transition group-hover:bg-black/20" />
                     </button>
@@ -382,10 +387,13 @@ export default function ProductDrawer({ isOpen, onClose, product }) {
                   )}
                 </div>
                 <div className="mt-3 grid grid-cols-3 gap-3">
-                  {(detailImages.length ? detailImages.slice(0, 3) : [null, null, null]).map((image, index) => (
+                  {(detailImages.length ? detailImages.slice(1, 4) : [null, null, null]).map((image, index) => {
+                    const extraCount = detailImages.length - 4;
+                    const showExtra = index === 2 && extraCount > 0;
+                    return (
                     <div
                       key={`thumb-${index}`}
-                      className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+                      className="overflow-hidden rounded-xl bg-transparent"
                     >
                       {image ? (
                         <button
@@ -394,14 +402,21 @@ export default function ProductDrawer({ isOpen, onClose, product }) {
                             setActiveImage(image);
                             setIsImageOpen(true);
                           }}
-                          className="group relative h-16 w-full overflow-hidden"
+                          className="group relative h-16 w-full overflow-hidden rounded-xl"
                           aria-label={`View ${detail.name} thumbnail`}
                         >
                           <img
                             src={image}
                             alt={`${detail.name} thumbnail ${index + 1}`}
-                            className="h-full w-full object-cover transition duration-200 group-hover:scale-105"
+                            loading="lazy"
+                            decoding="async"
+                            className="h-full w-full rounded-xl object-cover transition duration-200 group-hover:scale-105"
                           />
+                          {showExtra ? (
+                            <span className="absolute inset-0 flex items-center justify-center bg-black/60 text-xs font-semibold text-white">
+                              +{extraCount}
+                            </span>
+                          ) : null}
                           <span className="absolute inset-0 bg-black/0 transition group-hover:bg-black/20" />
                         </button>
                       ) : (
@@ -410,7 +425,8 @@ export default function ProductDrawer({ isOpen, onClose, product }) {
                         </div>
                       )}
                     </div>
-                  ))}
+                  );
+                  })}
                 </div>
               </div>
 

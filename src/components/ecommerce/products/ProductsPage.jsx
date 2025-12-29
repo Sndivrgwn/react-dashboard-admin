@@ -184,6 +184,8 @@ export default function ProductsPage() {
                           <img
                             src={product.imageSrc}
                             alt={product.name}
+                            loading="lazy"
+                            decoding="async"
                             className="h-10 w-10 rounded-xl object-cover"
                           />
                         ) : (

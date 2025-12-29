@@ -308,6 +308,8 @@ export default function ProductDetailsPage() {
                 <img
                   src={product.images[0]}
                   alt={product.name}
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover transition duration-200 group-hover:scale-105"
                 />
                 <span className="absolute inset-0 bg-black/0 transition group-hover:bg-black/20" />
@@ -387,7 +389,7 @@ export default function ProductDetailsPage() {
             <Section title="Media">
               {product.images.length ? (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {product.images.map((image, index) => (
+                  {product.images.slice(0, 5).map((image, index) => (
                     <button
                       key={`${image}-${index}`}
                       type="button"
@@ -401,6 +403,8 @@ export default function ProductDetailsPage() {
                       <img
                         src={image}
                         alt={`${product.name} ${index + 1}`}
+                        loading="lazy"
+                        decoding="async"
                         className="h-40 w-full object-cover transition duration-200 group-hover:scale-105"
                       />
                       <span className="absolute inset-0 bg-black/0 transition group-hover:bg-black/20" />
