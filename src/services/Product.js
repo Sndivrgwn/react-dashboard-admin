@@ -10,8 +10,10 @@ export const createProduct = async (payload) => {
   return res.data;
 };
 
-export const fetchProducts = async () => {
-  const res = await api.get("/product");
+export const fetchProducts = async ({ page } = {}) => {
+  const res = await api.get("/product", {
+    params: page ? { page } : undefined,
+  });
   return res.data;
 };
 

@@ -35,6 +35,7 @@ const generateSku = (nameValue, colorValue) => {
     .map((word) => word.slice(0, 3).toUpperCase())
     .join("");
   const colorName = colorMap[(colorValue || "").toLowerCase()] || "COLOR";
+  const normalizedColor = colorName.trim().replace(/\s+/g, "_");
   const now = new Date();
   const datePart = `${String(now.getDate()).padStart(2, "0")}${String(
     now.getMonth() + 1
@@ -42,7 +43,7 @@ const generateSku = (nameValue, colorValue) => {
   const timePart = `${String(now.getHours()).padStart(2, "0")}${String(
     now.getMinutes()
   ).padStart(2, "0")}`;
-  return `${namePart}-${colorName.toUpperCase()}-${datePart}-${timePart}`;
+  return `${namePart}-${normalizedColor.toUpperCase()}-${datePart}-${timePart}`;
 };
 
 export function ProductProvider({ children }) {

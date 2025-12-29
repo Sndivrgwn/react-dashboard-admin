@@ -31,13 +31,15 @@ const formatCurrency = (value) => {
 };
 
 export default function ProductsPage() {
-  const { products, isLoading, errorMessage, loadProducts } = useProducts();
+  const { products, pagination, isLoading, errorMessage, loadProducts } =
+    useProducts();
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    loadProducts();
-  }, [loadProducts]);
+    loadProducts({ page });
+  }, [loadProducts, page]);
 
   const rows = useMemo(() => {
     const apiHost = "http://127.0.0.1:8000";
@@ -92,6 +94,17 @@ export default function ProductsPage() {
     });
   }, [products]);
 
+  const pageNumbers = useMemo(() => {
+    const linkPages =
+      pagination.links
+        ?.map((link) => Number(link.page))
+        .filter((page) => Number.isFinite(page) && page > 0) || [];
+    const uniquePages = Array.from(new Set(linkPages)).sort((a, b) => a - b);
+    if (uniquePages.length) return uniquePages;
+    const lastPage = pagination.lastPage || 1;
+    return Array.from({ length: lastPage }, (_, index) => index + 1);
+  }, [pagination.links, pagination.lastPage]);
+
   return (
     <div className="mx-auto w-full max-w-6xl space-y-6 text-white">
       {errorMessage ? <ErrorBanner message={errorMessage} /> : null}
@@ -122,29 +135,43 @@ export default function ProductsPage() {
         }
         footer={
           <>
-            <span>Showing 1-6 of 24 results</span>
+            <span>
+              Showing {pagination.from || 0}-{pagination.to || 0} of{" "}
+              {pagination.total || 0} results
+            </span>
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                className="rounded-lg border border-white/10 px-3 py-2 text-white/60 transition hover:border-white/20 hover:text-white"
+                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                disabled={!pagination.prevPageUrl || page <= 1}
+                className="rounded-lg border border-white/10 px-3 py-2 text-white/60 transition hover:border-white/20 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
               >
                 Previous
               </button>
+              {pageNumbers.map((pageNumber) => (
+                <button
+                  key={pageNumber}
+                  type="button"
+                  onClick={() => setPage(pageNumber)}
+                  className={[
+                    "flex h-8 w-8 items-center justify-center rounded-lg text-sm transition",
+                    pageNumber === page
+                      ? "bg-white text-slate-900"
+                      : "text-white/60 hover:text-white",
+                  ].join(" ")}
+                >
+                  {pageNumber}
+                </button>
+              ))}
               <button
                 type="button"
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-slate-900"
-              >
-                1
-              </button>
-              <button type="button" className="px-2 text-white/60">
-                2
-              </button>
-              <button type="button" className="px-2 text-white/60">
-                3
-              </button>
-              <button
-                type="button"
-                className="rounded-lg border border-white/10 px-3 py-2 text-white/60 transition hover:border-white/20 hover:text-white"
+                onClick={() =>
+                  setPage((prev) =>
+                    Math.min(prev + 1, pagination.lastPage || prev + 1)
+                  )
+                }
+                disabled={!pagination.nextPageUrl || page >= pagination.lastPage}
+                className="rounded-lg border border-white/10 px-3 py-2 text-white/60 transition hover:border-white/20 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
               >
                 Next
               </button>

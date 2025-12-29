@@ -134,15 +134,20 @@ export default function ProductDrawer({ isOpen, onClose, product }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showReadonly, setShowReadonly] = useState(false);
   const menuRef = useRef(null);
+  const lastFetchRef = useRef(null);
 
   const productId =
     product?.id || product?.product_id || product?.uuid || product?.SKU || product?.sku;
 
   useEffect(() => {
     if (!isOpen || !productId) return;
+    const detailId = productDetail?.id || productDetail?.product_id;
+    if (detailId === productId) return;
+    if (lastFetchRef.current === productId) return;
+    lastFetchRef.current = productId;
     fetchProductDetail(productId);
     loadCatalog();
-  }, [isOpen, productId, fetchProductDetail, loadCatalog]);
+  }, [isOpen, productId, productDetail, fetchProductDetail, loadCatalog]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -157,6 +162,11 @@ export default function ProductDrawer({ isOpen, onClose, product }) {
     setShowConfirm(false);
     setShowReadonly(false);
   }, [isOpen, productId]);
+
+  useEffect(() => {
+    if (isOpen) return;
+    lastFetchRef.current = null;
+  }, [isOpen]);
 
   const detail = productDetail || product;
   const detailImages = useMemo(() => {
